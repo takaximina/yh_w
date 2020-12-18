@@ -1,28 +1,337 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div class="nav">
+      <p>大数据分析图</p>
+    </div>
+    <div class="container">
+      <div class="center">
+        <div class="left">
+          <div class="memory_content">
+            <div class="title">
+              <p>内存使用和数据库健康</p>
+            </div>
+            <memory />
+          </div>
+          <div class="memory_content" style="min-height: 18rem">
+            <div class="title">
+              <p>网络流量分析</p>
+            </div>
+            <internet />
+          </div>
+          <div class="memory_content">
+            <div class="title">
+              <p>存储性能</p>
+            </div>
+            <store />
+          </div>
+        </div>
+        <div class="right">
+          <div class="map_center">
+            <div class="map">
+              <div class="memory_content">
+                <div class="title">
+                  <p>两地三中心</p>
+                </div>
+                <gmap />
+              </div>
+            </div>
+            <div class="other">
+              <div class="memory_content">
+                <div class="title">
+                  <p>告警信息</p>
+                </div>
+                <alarm />
+              </div>
+              <div class="memory_content" style="min-height: 18rem">
+                <div class="title">
+                  <p>存储空间使用信息</p>
+                </div>
+                <storage />
+              </div>
+              <div class="memory_content">
+                <div class="title">
+                  <p>表空间信息</p>
+                </div>
+                <table-space />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bottom">
+        <div class="cpu">
+          <div class="memory_content">
+            <div class="title">
+              <p>主机CPU&活跃会话</p>
+            </div>
+            <cpu />
+          </div>
+        </div>
+        <div class="alarm">
+          <div class="memory_content">
+            <div class="title">
+              <p>告警信息</p>
+              <el-popover width="200" trigger="click" class="select select_shili">
+                <el-select  v-model="select_shili" size="mini" >
+                  <el-option v-for="item in list" :key="item.ins_id" :value="item.ins_id" :label="item.ins_desc"></el-option>
+                </el-select>
+                <span slot="reference" class="titel_span">选择实例</span>
+              </el-popover>
+              <el-popover width="200" trigger="click" class="select">
+                <el-select multiple v-model="select" size="mini" style="">
+                  <el-option :value="1" label="一级"></el-option>
+                  <el-option :value="2" label="二级"></el-option>
+                  <el-option :value="3" label="三级"></el-option>
+                  <el-option :value="4" label="四级"></el-option>
+                </el-select>
+                <span slot="reference" class="titel_span">选择告警顶级</span>
+              </el-popover>
+            </div>
+            <alarm-table />
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import memory from "@/components/left/memory.vue";
+import internet from "@/components/left/internet.vue";
+import store from "@/components/left/store.vue";
+import cpu from "@/components/left/cpu.vue";
+import gmap from "@/components/right/map.vue";
+import alarm from "@/components/right/alarm.vue";
+import storage from "@/components/left/storage.vue";
+import tableSpace from "@/components/left/tableSpace.vue";
+import alarmTable from "@/components/left/alarmTable.vue";
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
+    memory,
+    internet,
+    store,
+    cpu,
+    gmap,
+    alarm,
+    tableSpace,
+    storage,
+    alarmTable,
+  },
+  data() {
+    return {
+      select: [4],
+      list:[],
+      select_shili:'',
+      obj: {
+        position: "absolute",
+        right: ".25rem",
+        right: "3px",
+        top: "-11px",
+        backgroundColor: "rgba(1, 239, 220, 0.08)",
+      },
+    };
+  },
+  async created(){
+    let data=await this.$http.get('/');
+    this.list=data
   }
-}
+};
 </script>
-
 <style lang="less">
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html,
+body,
 #app {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
   font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  font-size: 16px;
+}
+</style>
+<style lang="less" scoped>
+.memory_content_basic {
+  flex: 1;
+  .title {
+    width: 100%;
+    font-size: 1.25rem;
+    text-align: center;
+    font-family: PingFangSC;
+    font-weight: bold;
+    color: #00f6ff;
+    height: 1.875rem;
+    margin-top: 0.9375rem;
+    background-image: url(~@/assets/标题文字-背景@3x.png);
+    background-size: 80% 200%;
+    background-repeat: no-repeat;
+    background-position: 50% 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    p {
+      height: 1.1875rem;
+      line-height: 1.25rem;
+    }
+  }
+  margin-bottom: 1rem;
+  background: rgba(1, 239, 220, 0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  //align-items: center;
+  border-radius: 6px;
+  border: 1px solid #01efdc;
+  width: 100%;
+  height: 25%;
+  background-image: url(~@/assets/line1.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  // flex: 1;
+}
+#app {
+  display: flex;
+  padding: 1.375rem;
+  background-image: url(~@/assets/大背景图@3x.png);
+  display: flex;
+  flex-direction: column;
+  .nav {
+    height: 3.625rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url(~@/assets/大数据分析图-背景@3x.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    margin-bottom: 0.625rem;
+    p {
+      font-size: 2.6875rem;
+      font-family: PingFangSC;
+      font-weight: 600;
+      color: #ffffff;
+      line-height: 2.1875rem;
+      background: linear-gradient(
+        90deg,
+        rgba(3, 99, 198, 0.6) 0%,
+        rgba(4, 106, 213, 0) 100%
+      );
+    }
+  }
+
+  .container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    // overflow: hidden;
+    flex: 1;
+    .center {
+      flex: 3;
+      height: 100%;
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      .left {
+        width: 33.75rem;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        .memory_content {
+          .memory_content_basic;
+        }
+      }
+      .right {
+        width: 100%;
+        height: 100%;
+        flex: 1;
+        margin-left: 1rem;
+
+        display: flex;
+        flex-direction: column;
+        .map_center {
+          width: calc(100% - 1px);
+          height: 100%;
+          display: flex;
+          flex-direction: row;
+          overflow: hidden;
+          // padding: 0 0 0 0.875rem;
+          .map {
+            width: 100%;
+            flex: 1;
+            height: 100%;
+            margin-right: 1.875rem;
+            padding-bottom: 1rem;
+            // padding-right:1rem ;
+
+            .memory_content {
+              .memory_content_basic;
+              height: 100%;
+            }
+          }
+          .other {
+            width: 33.75rem;
+            height: 100%;
+
+            display: flex;
+            flex-direction: column;
+            .memory_content {
+              .memory_content_basic;
+            }
+          }
+        }
+      }
+    }
+    .bottom {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      flex: 1;
+      .cpu {
+        width: 33.75rem;
+        height: 100%;
+        .memory_content {
+          .memory_content_basic;
+          height: 100%;
+        }
+      }
+      .alarm {
+        width: 100%;
+        flex: 1;
+        margin-left: 0.875rem;
+        .memory_content {
+          .memory_content_basic;
+          height: 100%;
+          .title {
+            background-size: 30% 200%;
+            position: relative;
+            .select {
+              background-color: transparent !important;
+              /deep/ .el-popover__reference-wrapper {
+                background-color: transparent;
+              }
+              position: absolute;
+              right: 3px;
+              top: -11px;
+              width: 5rem;
+              &_shili {
+                right: 103px;
+              }
+              .titel_span {
+                font-size: 0.75rem;
+                &:focus {
+                  outline: none;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
 </style>
