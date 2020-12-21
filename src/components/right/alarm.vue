@@ -13,23 +13,22 @@ let memoryChart1,
   memoryChart2 = null;
 export default {
   name: "memory",
-  data(){
-    return{
-      memoryData:[],
-      healthData:[]
-    }
-    
+  data() {
+    return {
+      memoryData: [],
+      healthData: [],
+    };
   },
   async mounted() {
     memoryChart1 = echarts.init(document.getElementById("alarm1"), "dark");
     memoryChart2 = echarts.init(document.getElementById("alarm2"), "dark");
-    let data1=await this.$http.get('/index/level');
-    let data2=await this.$http.get('/index/class');
-    this.memoryData=data1.map(v=>{
-      return {name:v.alert_level,value:v.alert_nums}
+    let data1 = await this.$http.get("/index/level");
+    let data2 = await this.$http.get("/index/class");
+    this.memoryData = data1.map((v) => {
+      return { name: v.alert_level, value: v.alert_nums };
     });
-    this.healthData=data2.map(v=>{
-      return {name:v.alert_class,value:v.alert_nums,...v}
+    this.healthData = data2.map((v) => {
+      return { name: v.alert_class, value: v.alert_nums, ...v };
     });
     this.drawMemory();
   },
@@ -49,10 +48,9 @@ export default {
         },
         backgroundColor: "transparent",
         tooltip: {
-          
           trigger: "item",
           formatter: "{a} <br/>{b}: {c} ({d}%)",
-           position: ['0%', '0%']
+          position: ["50%", "50%"],
         },
         grid: {
           top: "4%",
@@ -90,7 +88,7 @@ export default {
           textStyle: {
             fontSize: 12,
             fontWeight: "normal",
-            color:'#00FBFF'
+            color: "#00FBFF",
           },
           x: "center",
           y: "top",
@@ -100,7 +98,7 @@ export default {
         tooltip: {
           trigger: "item",
           formatter: "{a} <br/>{b}: {c} ({d}%)",
-          position: ['0%', '0%']
+          position: ["30%", "30%"],
         },
         grid: {
           top: "4%",
@@ -116,6 +114,11 @@ export default {
             radius: ["30%", "50%"],
             center: ["50%", "50%"],
             data: this.healthData,
+            label: {
+             position: 'outer',
+            alignTo: 'labelLine',
+            bleedMargin: 5
+            },
           },
         ],
       };

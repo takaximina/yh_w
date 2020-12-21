@@ -23,7 +23,7 @@ function getOption(data,level,use) {
   console.log(data,level,use)
   let color=level===0?'green':level===1?'yellow':level===2?'orange':'red'
   return {
-    backgroundColor: "#050038",
+    backgroundColor: "transparent",
     title: {
       text: '已使用'+use+"Gb",
       textStyle: {
@@ -247,17 +247,17 @@ export default {
           padding-right: 1.5rem;
           text-align: right;
           height: 1rem;
-          border: 0.5px solid aquamarine;
+          border: 0.5px solid #00a7ff;
         }
         .ponit {
           text-align: right;
           width: 1rem;
-          border: 0.5px solid aquamarine;
+          border: 0.5px solid #00a7ff;
         }
         .content {
           flex: 1;
           width: 100%;
-          border: 0.5px solid aquamarine;
+          border: 0.5px solid #00a7ff;
         }
       }
     }

@@ -72,12 +72,12 @@ export default {
           padding-right: 1.5rem;
           text-align: right;
           
-          border: 0.5px solid aquamarine;
+          border: 0.5px  solid #00a7ff;
         }
         .ponit{
           text-align: right;
           width: 1rem;
-          border: 0.5px solid aquamarine;
+          border: 0.5px  solid #00a7ff;
         }
         .content{
           i.el-icon-check{
@@ -89,7 +89,7 @@ export default {
           flex: 1;
           width: 100%;
           display: flex;
-           border: 0.5px solid aquamarine;
+           border: 0.5px  solid #00a7ff;
         }
       }
     }

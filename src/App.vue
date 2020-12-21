@@ -12,7 +12,7 @@
             </div>
             <memory />
           </div>
-          <div class="memory_content" style="min-height: 18rem">
+          <div class="memory_content" style="min-height: 16rem">
             <div class="title">
               <p>网络流量分析</p>
             </div>
@@ -42,7 +42,7 @@
                 </div>
                 <alarm />
               </div>
-              <div class="memory_content" style="min-height: 18rem">
+              <div class="memory_content" style="min-height: 16rem">
                 <div class="title">
                   <p>存储空间使用信息</p>
                 </div>
