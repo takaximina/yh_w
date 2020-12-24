@@ -10,22 +10,32 @@ let memoryChart1,
   memoryChart2 = null;
 export default {
   name: "memory",
-  data(){
+  data() {
     return {
-      data1:[],
-      data2:[],
-    }
+      data1: [],
+      data2: [],
+    };
   },
   async mounted() {
     memoryChart1 = echarts.init(document.getElementById("table_space"), "dark");
-    let data=await this.$http.get('/index/space');
-    this.data1=data.map(v=>{
-      return {value:v.usepct_inextend,color:v.inextend_is_alert,...v}
-    })
-    this.data2=data.map(v=>{
-      return {value:v.usepct_noextend,color:v.noextend_is_alert,...v}
-    })
-    // this.list=data
+    let data = await this.$http.get("/index/space");
+    this.data1 = data.map((v) => {
+      return { value: v.usepct_inextend, color: v.inextend_is_alert, ...v };
+    });
+    this.data2 = data.map((v) => {
+      return { value: v.usepct_noextend, color: v.noextend_is_alert, ...v };
+    });
+    this.list=data
+    setInterval(async () => {
+      data = await this.$http.get("/index/space");
+      this.data1 = data.map((v) => {
+        return { value: v.usepct_inextend, color: v.inextend_is_alert, ...v };
+      });
+      this.data2 = data.map((v) => {
+        return { value: v.usepct_noextend, color: v.noextend_is_alert, ...v };
+      });
+      this.drawMemory();
+    }, 10000);
     this.drawMemory();
   },
   methods: {
@@ -66,23 +76,24 @@ export default {
           data: ["考虑自动扩展使用率", "不考虑自动扩展使用率"],
         },
         tooltip: {
-            formatter: '{a}<br />{b}:{c}%'
+          formatter: "{a}<br />{b}:{c}%",
         },
         xAxis: {
           type: "category",
-          data: this.data1.map(v=>v.tabspace_name),
+          data: this.data1.map((v) => v.tabspace_name),
         },
         yAxis: {
-            type:'value',
-            axisLabel:{
-                formatter: '{value}%'
-            }
+          type: "value",
+          axisLabel: {
+            formatter: "{value}%",
+          },
         },
         // Declare several bar series, each will be mapped
         // to a column of dataset.source by default.
         series: [
           {
             type: "bar",
+            barWidth: 20,
             name: "考虑自动扩展使用率",
             data: this.data1.map((v) => {
               return {
@@ -103,6 +114,7 @@ export default {
           {
             type: "bar",
             name: "不考虑自动扩展使用率",
+            barWidth: 20,
             data: this.data2.map((v) => {
               return {
                 ...v,

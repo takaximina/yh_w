@@ -16,24 +16,37 @@ export default {
   async mounted() {
     memoryChart1 = echarts.init(document.getElementById("store1"), "dark");
     memoryChart2 = echarts.init(document.getElementById("store2"), "dark");
-    let data1=await this.$http.get('/index/io');
-    this.memoryData=data1.map(v=>{
-      return [v.physical_reads,v.physical_rtime]
+    let data1 = await this.$http.get("/index/io");
+    this.memoryData = data1.map((v) => {
+      return [v.physical_reads, v.physical_rtime];
     });
-    this.healthData=data1.map(v=>{
-      return [v.physical_writes,v.physical_wtime]
+    this.healthData = data1.map((v) => {
+      return [v.physical_writes, v.physical_wtime];
     });
-    this.date=data1.map(v=>{
-      return v.sys_date.substring(10,16)
+    this.date = data1.map((v) => {
+      return v.sys_date.substring(10, 16);
     });
+    setInterval(async () => {
+      data1 = await this.$http.get("/index/io");
+      this.memoryData = data1.map((v) => {
+        return [v.physical_reads, v.physical_rtime];
+      });
+      this.healthData = data1.map((v) => {
+        return [v.physical_writes, v.physical_wtime];
+      });
+      this.date = data1.map((v) => {
+        return v.sys_date.substring(10, 16);
+      });
+      this.drawMemory();
+    }, 10000);
     this.drawMemory();
   },
-  data(){
+  data() {
     return {
-      memoryData:[],
-      healthData:[],
-      date:[]
-    }
+      memoryData: [],
+      healthData: [],
+      date: [],
+    };
   },
   methods: {
     drawMemory() {
@@ -107,7 +120,7 @@ export default {
             emphasis: {
               focus: "series",
             },
-            data: this.memoryData.map(v=>v[1]),
+            data: this.memoryData.map((v) => v[1]),
           },
           {
             name: "物理读（秒/次）",
@@ -116,7 +129,7 @@ export default {
             emphasis: {
               focus: "series",
             },
-            data: this.memoryData.map(v=>v[0]),
+            data: this.memoryData.map((v) => v[0]),
           },
         ],
       };
@@ -124,14 +137,14 @@ export default {
         color: colors,
         backgroundColor: "transparent",
         tooltip: {
-            trigger: "axis",
-            confine: true,
-            appendToBody:true,
-            // position:[0,0]
-            // axisPointer: {
-            //   type: "cross",
-            // },
-          },
+          trigger: "axis",
+          confine: true,
+          appendToBody: true,
+          // position:[0,0]
+          // axisPointer: {
+          //   type: "cross",
+          // },
+        },
         legend: {
           data: ["物理写响应时间(微秒/次)", "物理写（秒/次）"],
         },
@@ -161,7 +174,7 @@ export default {
             type: "value",
             min: "dataMin",
             max: "dataMax",
-            
+
             axisPointer: {
               label: {
                 formatter: function (params) {
@@ -193,7 +206,7 @@ export default {
             emphasis: {
               focus: "series",
             },
-            data: this.healthData.map(v=>v[1]),
+            data: this.healthData.map((v) => v[1]),
           },
           {
             name: "物理写（秒/次）",
@@ -202,7 +215,7 @@ export default {
             emphasis: {
               focus: "series",
             },
-            data: this.healthData.map(v=>v[0]),
+            data: this.healthData.map((v) => v[0]),
           },
         ],
       };

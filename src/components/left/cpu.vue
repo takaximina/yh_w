@@ -9,20 +9,26 @@ let memoryChart1 = null,
   memoryChart2;
 export default {
   name: "internet",
-  data(){
-    return{
-      memoryData:{},
-      healthData:{}
-    }
-    
+  data() {
+    return {
+      memoryData: {},
+      healthData: {},
+    };
   },
   async mounted() {
     memoryChart1 = echarts.init(document.getElementById("cpu1"), "dark");
     memoryChart2 = echarts.init(document.getElementById("cpu2"), "dark");
-    let data1=await this.$http.get('/index/cpu');
-    let data2=await this.$http.get('/index/session');
-    this.memoryData=Object.assign(this.memoryData,{...data1[0]}) ;
-    this.healthData=Object.assign(this.healthData,{...data2[0]});
+    let data1 = await this.$http.get("/index/cpu");
+    let data2 = await this.$http.get("/index/session");
+    setInterval(async () => {
+      data1 = await this.$http.get("/index/cpu");
+      data2 = await this.$http.get("/index/session");
+      this.memoryData = Object.assign({}, { ...data1[0] });
+      this.healthData = Object.assign({}, { ...data2[0] });
+      this.drawMemory();
+    }, 10000);
+    this.memoryData = Object.assign(this.memoryData, { ...data1[0] });
+    this.healthData = Object.assign(this.healthData, { ...data2[0] });
     this.drawMemory();
   },
   methods: {
@@ -172,14 +178,14 @@ export default {
   display: flex;
   #cpu1 {
     width: 50%;
-    flex:1;
+    flex: 1;
     height: 100%;
     // margin: 1px;
     // overflow: hidden;
   }
   #cpu2 {
     width: 50%;
-    flex:1;
+    flex: 1;
     height: 100%;
     // margin: 1px;
     // overflow: hidden;

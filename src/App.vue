@@ -72,13 +72,13 @@
             <div class="title">
               <p>告警信息</p>
               <el-popover width="200" trigger="click" class="select select_shili">
-                <el-select  v-model="select_shili" size="mini" >
+                <el-select  v-model="select_shili" size="mini" @change="changeShili">
                   <el-option v-for="item in list" :key="item.ins_id" :value="item.ins_id" :label="item.ins_desc"></el-option>
                 </el-select>
                 <span slot="reference" class="titel_span">选择实例</span>
               </el-popover>
               <el-popover width="200" trigger="click" class="select">
-                <el-select multiple v-model="select" size="mini" style="">
+                <el-select multiple v-model="select" size="mini" style="" @change="chooseLevel">
                   <el-option :value="1" label="一级"></el-option>
                   <el-option :value="2" label="二级"></el-option>
                   <el-option :value="3" label="三级"></el-option>
@@ -105,6 +105,7 @@ import alarm from "@/components/right/alarm.vue";
 import storage from "@/components/left/storage.vue";
 import tableSpace from "@/components/left/tableSpace.vue";
 import alarmTable from "@/components/left/alarmTable.vue";
+import Cookie from 'js-cookie';
 export default {
   name: "App",
   components: {
@@ -120,9 +121,9 @@ export default {
   },
   data() {
     return {
-      select: [4],
+      select: Cookie.get('v')?JSON.parse(Cookie.get('v')):[4],
       list:[],
-      select_shili:'',
+      select_shili:Cookie.get('shili')?JSON.parse(Cookie.get('shili')).ins_id:'',
       obj: {
         position: "absolute",
         right: ".25rem",
@@ -133,8 +134,20 @@ export default {
     };
   },
   async created(){
-    let data=await this.$http.get('/');
+    let data=await this.$http.get('/',{params:{v:JSON.stringify(this.select)}});
     this.list=data
+  },
+  methods:{
+    changeShili(v){
+      let data=this.list.find(vi=>vi.ins_id==v);
+      this.$http.post('/index/choose',data).then(()=>{
+        Cookie.set('shili',JSON.stringify(data));
+      });
+    },
+    chooseLevel(v){
+      console.log(v);
+       Cookie.set('v',JSON.stringify(v));
+    }
   }
 };
 </script>

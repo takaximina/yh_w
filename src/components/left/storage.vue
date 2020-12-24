@@ -3,29 +3,47 @@
     <table class="data">
       <tbody class="table">
         <tr>
-          <td class="title" v-for="item of 5" :key="item"><span>{{list[item-1]?list[item-1].type_name:''}}</span>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+          <td class="title" v-for="item of 5" :key="item">
+            <span>{{ list[item - 1] ? list[item - 1].type_name : "" }}</span
+            >&nbsp;&nbsp;&nbsp;&nbsp;
+          </td>
         </tr>
         <tr class="shuitong">
-          <td class="title" v-for="item of 5" :key="item"><div :id="'liquid'+item"></div></td>      
+          <td class="title" v-for="item of 5" :key="item">
+            <div :id="'liquid' + item"></div>
+          </td>
         </tr>
         <tr>
-          <td class="title" v-for="item of 5" :key="item"><span>{{list[item-1]?list[item-1].use_Pct:''}}</span>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+          <td class="title" v-for="item of 5" :key="item">
+            <span>{{ list[item - 1] ? list[item - 1].use_Pct+'%' : "" }}</span
+            >&nbsp;&nbsp;&nbsp;&nbsp;
+          </td>
         </tr>
         <tr>
-          <td class="title" v-for="item of 5" :key="item"><span>{{list[item-1]?list[item-1].total_Gb:''}}</span>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+          <td class="title" v-for="item of 5" :key="item">
+            <span>{{ list[item - 1] ? list[item - 1].total_Gb+'GB' : "" }}</span
+            >&nbsp;&nbsp;&nbsp;&nbsp;
+          </td>
         </tr>
       </tbody>
     </table>
   </div>
 </template>
 <script>
-function getOption(data,level,use) {
-  console.log(data,level,use)
-  let color=level===0?'green':level===1?'yellow':level===2?'orange':'red'
+function getOption(data, level, use) {
+  console.log(data, level, use);
+  let color =
+    level === 0
+      ? "green"
+      : level === 1
+      ? "yellow"
+      : level === 2
+      ? "orange"
+      : "red";
   return {
     backgroundColor: "transparent",
     title: {
-      text: '已使用'+use+"Gb",
+      text: "已使用" + use + "Gb",
       textStyle: {
         fontWeight: "normal",
         fontSize: 12,
@@ -37,15 +55,15 @@ function getOption(data,level,use) {
         type: "liquidFill",
         radius: "65%",
         center: ["50%", "50%"],
-        data: [data/100, data/100, data/100], // data个数代表波浪数
-        color:[color,color,color],
+        data: [data / 100, data / 100, data / 100], // data个数代表波浪数
+        color: [color, color, color],
         backgroundStyle: {
           borderWidth: 1,
           color: "rgb(255,0,255,0.1)",
         },
         label: {
           normal: {
-            formatter: (data).toFixed(2) + "%",
+            formatter: data.toFixed(2) + "%",
             textStyle: {
               fontSize: 12,
             },
@@ -156,10 +174,10 @@ function getOption(data,level,use) {
 let liquid1, liquid2, liquid3, liquid4, liquid5;
 export default {
   name: "internet",
-  data(){
+  data() {
     return {
-      list:[]
-    }
+      list: [],
+    };
   },
   async mounted() {
     liquid1 = echarts.init(document.getElementById("liquid1"), "dark");
@@ -167,28 +185,65 @@ export default {
     liquid3 = echarts.init(document.getElementById("liquid3"), "dark");
     liquid4 = echarts.init(document.getElementById("liquid4"), "dark");
     liquid5 = echarts.init(document.getElementById("liquid5"), "dark");
-    let data1=await this.$http.get('/index/storage');
-    this.list=data1;
-     this.drawMemory();
+    let data1 = await this.$http.get("/index/storage");
+    this.list = data1;
+    setInterval(async () => {
+      data1 = await this.$http.get("/index/storage");
+      this.list = data1;
+      this.drawMemory();
+    }, 10000);
+    this.drawMemory();
   },
   methods: {
     drawMemory() {
-      let option1 = getOption(this.list[0]?this.list[0].use_Pct:0,this.list[0]?this.list[0].is_alert:0,this.list[0]?this.list[0].use_Gb:0);
+      let option1 = getOption(
+        this.list[0] ? this.list[0].use_Pct : 0,
+        this.list[0] ? this.list[0].is_alert : 0,
+        this.list[0] ? this.list[0].use_Gb : 0
+      );
       liquid1.setOption(option1, {
         notMerge: true,
       });
-      liquid2.setOption(getOption(this.list[1]?this.list[1].use_Pct:0,this.list[1]?this.list[1].is_alert:0,this.list[1]?this.list[1].use_Gb:0), {
-        notMerge: true,
-      });
-      liquid3.setOption(getOption(this.list[2]?this.list[2].use_Pct:0,this.list[2]?this.list[2].is_alert:0,this.list[2]?this.list[2].use_Gb:0), {
-        notMerge: true,
-      });
-      liquid4.setOption(getOption(this.list[3]?this.list[3].use_Pct:0,this.list[3]?this.list[3].is_alert:0,this.list[3]?this.list[3].use_Gb:0), {
-        notMerge: true,
-      });
-      liquid5.setOption(getOption(this.list[4]?this.list[4].use_Pct:0,this.list[4]?this.list[4].is_alert:0,this.list[4]?this.list[4].use_Gb:0), {
-        notMerge: true,
-      });
+      liquid2.setOption(
+        getOption(
+          this.list[1] ? this.list[1].use_Pct : 0,
+          this.list[1] ? this.list[1].is_alert : 0,
+          this.list[1] ? this.list[1].use_Gb : 0
+        ),
+        {
+          notMerge: true,
+        }
+      );
+      liquid3.setOption(
+        getOption(
+          this.list[2] ? this.list[2].use_Pct : 0,
+          this.list[2] ? this.list[2].is_alert : 0,
+          this.list[2] ? this.list[2].use_Gb : 0
+        ),
+        {
+          notMerge: true,
+        }
+      );
+      liquid4.setOption(
+        getOption(
+          this.list[3] ? this.list[3].use_Pct : 0,
+          this.list[3] ? this.list[3].is_alert : 0,
+          this.list[3] ? this.list[3].use_Gb : 0
+        ),
+        {
+          notMerge: true,
+        }
+      );
+      liquid5.setOption(
+        getOption(
+          this.list[4] ? this.list[4].use_Pct : 0,
+          this.list[4] ? this.list[4].is_alert : 0,
+          this.list[4] ? this.list[4].use_Gb : 0
+        ),
+        {
+          notMerge: true,
+        }
+      );
       window.addEventListener("resize", () => {
         console.log("resize");
         requestAnimationFrame(() => {
@@ -239,24 +294,12 @@ export default {
             height: 100%;
           }
         }
-        span {
-          transform: scale(0.625);
-        }
         .title {
           width: 20%;
-          padding-right: 1.5rem;
-          text-align: right;
-          height: 1rem;
-          border: 0.5px solid #00a7ff;
-        }
-        .ponit {
-          text-align: right;
-          width: 1rem;
-          border: 0.5px solid #00a7ff;
-        }
-        .content {
-          flex: 1;
-          width: 100%;
+          padding-right: 1rem;
+          text-align: center;
+          font-size: 0.75rem;
+          height: 1.1rem;
           border: 0.5px solid #00a7ff;
         }
       }

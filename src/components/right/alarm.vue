@@ -27,9 +27,24 @@ export default {
     this.memoryData = data1.map((v) => {
       return { name: v.alert_level, value: v.alert_nums };
     });
-    this.healthData = data2.map((v) => {
-      return { name: v.alert_class, value: v.alert_nums, ...v };
-    });
+    this.healthData = data2
+      .sort((a, b) => a.alert_nums - b.alert_nums)
+      .map((v) => {
+        return { name: v.alert_class, value: v.alert_nums, ...v };
+      });
+    setInterval(async () => {
+      data1 = await this.$http.get("/index/level");
+      data2 = await this.$http.get("/index/class");
+      this.memoryData = data1.map((v) => {
+        return { name: v.alert_level, value: v.alert_nums };
+      });
+      this.healthData = data2
+        .sort((a, b) => a.alert_nums - b.alert_nums)
+        .map((v) => {
+          return { name: v.alert_class, value: v.alert_nums, ...v };
+        });
+      this.drawMemory();
+    }, 10000);
     this.drawMemory();
   },
   methods: {
@@ -73,11 +88,16 @@ export default {
             //     // fontWeight: "bold",
             //   },
             // },
-            // label: {
-            //   position: "outside",
-            //   alignTo: "edge",
-            //   // margin: "25%",
-            // },
+            label: {
+              position: "outer",
+              alignTo: "labelLine",
+              bleedMargin: 5,
+
+              // position: "outside",
+              // alignTo: "edge",
+              // margin: "25%",
+              formatter: "告警级别{b}:\n{c}%",
+            },
             data: this.memoryData,
           },
         ],
@@ -115,9 +135,10 @@ export default {
             center: ["50%", "50%"],
             data: this.healthData,
             label: {
-             position: 'outer',
-            alignTo: 'labelLine',
-            bleedMargin: 5
+              position: "outer",
+              alignTo: "labelLine",
+              bleedMargin: 5,
+              formatter: "{b}:\n{c}%",
             },
           },
         ],

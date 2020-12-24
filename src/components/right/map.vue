@@ -13,6 +13,7 @@ export default {
   },
   methods: {
     drawMemory() {
+      let im = require("@/assets/绿色传输@3x.png");
       let points = [
         { value: [118.8062, 31.9208], itemStyle: { color: "blue" } },
         { value: [127.9688, 45.368], itemStyle: { color: "#4fb6d2" } },
@@ -38,6 +39,27 @@ export default {
       let index = -1;
       memoryChart.hideLoading();
       let option = {
+        // grapghic: [
+        //   {
+        //     type: "image",
+        //     z: 999,
+        //     style: {
+        //       image: im,
+        //     },
+        //   },
+        //   {
+        //     type: "text",
+        //     left: "center",
+        //     top: "40%",
+        //     style: {
+        //       text: "运动达标率",
+        //       textAlign: "center",
+        //       fill: "#333",
+        //       fontSize: 20,
+        //       fontWeight: 700,
+        //     },
+        //   },
+        // ],
         backgroundColor: "transparent",
         geo: {
           map: "china",
@@ -100,7 +122,7 @@ export default {
             roam: false,
             label: {
               normal: {
-                show: true,
+                show: false,
                 textStyle: {
                   color: "#1DE9B6",
                 },
@@ -191,16 +213,7 @@ export default {
             lineStyle: {
               normal: {
                 color: "#1DE9B6",
-                /* function (value){ //随机颜色
-                        
-                        ['#f21347','#f3243e','#f33736','#f34131','#f34e2b',
-                        '#f56321','#f56f1c','#f58414','#f58f0e','#f5a305',
-                        '#e7ab0b','#dfae10','#d5b314','#c1bb1f','#b9be23',
-                        '#a6c62c','#96cc34','#89d23b','#7ed741','#77d64c',
-                        '#71d162','#6bcc75','#65c78b','#5fc2a0','#5abead',
-                        '#52b9c7','#4fb6d2','#4ab2e5']
- return "#"+("00000"+((Math.random()*16777215+0.5)>>0).toString(16)).slice(-6);
- }*/ width: 4, //线条宽度
+                width: 4, //线条宽度
                 opacity: 0.1, //尾迹线条透明度
                 curveness: 0.3, //尾迹线条曲直度
               },
@@ -212,8 +225,8 @@ export default {
                   [119.4543, 25.9222],
                 ],
                 lineStyle: { color: "green" },
-                label:{
-                  show:true
+                label: {
+                  show: true,
                 },
               },
               {
@@ -222,115 +235,10 @@ export default {
                   [127.9688, 45.368],
                 ],
                 lineStyle: { color: "red" },
-                label:{
-                  show:true
-                }
+                label: {
+                  show: true,
+                },
               },
-              // {
-              //   coords: [
-              //     [110.3467, 41.4899],
-              //     [119.4543, 25.9222],
-              //   ],
-              //   lineStyle: { color: "#52b9c7" },
-              // },
-              // {
-              //   coords: [
-              //     [125.8154, 44.2584],
-              //     [119.4543, 25.9222],
-              //   ],
-              //   lineStyle: { color: "#5abead" },
-              // },
-              // {
-              //   coords: [
-              //     [116.4551, 40.2539],
-              //     [119.4543, 25.9222],
-              //   ],
-              //   lineStyle: { color: "#f34e2b" },
-              // },
-              // {
-              //   coords: [
-              //     [123.1238, 42.1216],
-              //     [119.4543, 25.9222],
-              //   ],
-              //   lineStyle: { color: "#f56321" },
-              // },
-              // {
-              //   coords: [
-              //     [114.4995, 38.1006],
-              //     [119.4543, 25.9222],
-              //   ],
-              //   lineStyle: { color: "#f56f1c" },
-              // },
-              // {
-              //   coords: [
-              //     [117.4219, 39.4189],
-              //     [119.4543, 25.9222],
-              //   ],
-              //   lineStyle: { color: "#f58414" },
-              // },
-              // {
-              //   coords: [
-              //     [112.3352, 37.9413],
-              //     [119.4543, 25.9222],
-              //   ],
-              //   lineStyle: { color: "#f58f0e" },
-              // },
-              // {
-              //   coords: [
-              //     [109.1162, 34.2004],
-              //     [119.4543, 25.9222],
-              //   ],
-              //   lineStyle: { color: "#f5a305" },
-              // },
-              // {
-              //   coords: [
-              //     [103.5901, 36.3043],
-              //     [119.4543, 25.9222],
-              //   ],
-              //   lineStyle: { color: "#e7ab0b" },
-              // },
-              // {
-              //   coords: [
-              //     [106.3586, 38.1775],
-              //     [119.4543, 25.9222],
-              //   ],
-              //   lineStyle: { color: "#dfae10" },
-              // },
-              // {
-              //   coords: [
-              //     [101.4038, 36.8207],
-              //     [119.4543, 25.9222],
-              //   ],
-              //   lineStyle: { color: "#d5b314" },
-              // },
-              // {
-              //   coords: [
-              //     [103.9526, 30.7617],
-              //     [119.4543, 25.9222],
-              //   ],
-              //   lineStyle: { color: "#c1bb1f" },
-              // },
-              // {
-              //   coords: [
-              //     [108.384366, 30.439702],
-              //     [119.4543, 25.9222],
-              //   ],
-              //   lineStyle: { color: "#b9be23" },
-              // },
-              // {
-              //   coords: [
-              //     [113.0823, 28.2568],
-              //     [119.4543, 25.9222],
-              //   ],
-              //   lineStyle: { color: "#a6c62c" },
-              // },
-              // {
-              //   coords: [
-              //     [102.9199, 25.46639],
-              //     [119.4543, 25.9222],
-              //   ],
-              //   lineStyle: { color: "#96cc34" },
-              // },
             ],
           },
         ],

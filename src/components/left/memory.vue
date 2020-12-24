@@ -16,23 +16,33 @@ export default {
   async mounted() {
     memoryChart1 = echarts.init(document.getElementById("memory1"), "dark");
     memoryChart2 = echarts.init(document.getElementById("memory2"), "dark");
-    let data1=await this.$http.get('/index/memory');
-    let data2=await this.$http.get('/index/health');
-    this.memoryData=data1.map(v=>{
-      return {name:v.MemName,value:v.UseSizeGB}
+
+    let data1 = await this.$http.get("/index/memory");
+    let data2 = await this.$http.get("/index/health");
+    this.memoryData = data1.map((v) => {
+      return { name: v.MemName, value: v.UseSizeGB };
     });
-    this.healthData=data2.map(v=>{
-      return {name:v.health_type,value:v.weight,...v}
+    this.healthData = data2.map((v) => {
+      return { name: v.health_type, value: v.weight, ...v };
     });
-    console.log(this.healthData);
+    setInterval(async () => {
+      data1 = await this.$http.get("/index/memory");
+      data2 = await this.$http.get("/index/health");
+      this.memoryData = data1.map((v) => {
+        return { name: v.MemName, value: v.UseSizeGB };
+      });
+      this.healthData = data2.map((v) => {
+        return { name: v.health_type, value: v.weight, ...v };
+      });
+      this.drawMemory();
+    }, 10000);
     this.drawMemory();
   },
-  data(){
-    return{
-      memoryData:[],
-      healthData:[]
-    }
-    
+  data() {
+    return {
+      memoryData: [],
+      healthData: [],
+    };
   },
   methods: {
     drawMemory() {
@@ -50,10 +60,9 @@ export default {
         },
         backgroundColor: "transparent",
         tooltip: {
-          
           trigger: "item",
           formatter: "{a} <br/>{b}: {c} ({d}%)",
-           position: ['0%', '0%']
+          position: ["0%", "0%"],
         },
         grid: {
           top: "4%",
@@ -76,11 +85,11 @@ export default {
             //     // fontWeight: "bold",
             //   },
             // },
-            // label: {
-            //   position: "outside",
-            //   alignTo: "edge",
-            //   // margin: "25%",
-            // },
+            label: {
+              formatter: "{b}: \n{c}",
+              align: "center",
+              verticalAlign: "center",
+            },
             data: this.memoryData,
           },
         ],
@@ -91,7 +100,7 @@ export default {
           textStyle: {
             fontSize: 12,
             fontWeight: "normal",
-            color:'#00FBFF'
+            color: "#00FBFF",
           },
           x: "center",
           y: "top",
@@ -101,7 +110,7 @@ export default {
         tooltip: {
           trigger: "item",
           formatter: "{a} <br/>{b}: {c} ({d}%)",
-          position: ['0%', '0%']
+          position: ["0%", "0%"],
         },
         grid: {
           top: "4%",
@@ -116,7 +125,12 @@ export default {
             type: "pie",
             radius: ["30%", "50%"],
             center: ["50%", "50%"],
-            data: this.healthData
+            label: {
+              formatter: "{b}:\n{c}%",
+              align: "center",
+              verticalAlign: "center",
+            },
+            data: this.healthData,
           },
         ],
       };
