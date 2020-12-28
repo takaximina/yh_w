@@ -4,67 +4,159 @@
   </div>
 </template>
 <script>
+import { transtomap, transtodata } from "./mapOption";
 let memoryChart = null;
 export default {
   name: "internet",
-  mounted() {
+  data() {
+    return {
+      local: {},
+      noLocal: {},
+    };
+  },
+  async mounted() {
     memoryChart = echarts.init(document.getElementById("map"), "dark");
+    let data = await this.$http.get("/index/adg");
+    this.local = Object.assign(
+      this.local,
+      data.find((v) => v.is_local == 0)
+    );
+    this.noLocal = Object.assign(
+      this.noLocal,
+      data.find((v) => v.is_local == 1)
+    );
+    setInterval(async () => {
+      data = await this.$http.get("/index/adg");
+      this.local = Object.assign(
+        this.local,
+        data.find((v) => v.is_local == 0)
+      );
+      this.noLocal = Object.assign(
+        this.noLocal,
+        data.find((v) => v.is_local == 1)
+      );
+      this.drawMemory();
+    }, 10000);
     this.drawMemory();
   },
   methods: {
     drawMemory() {
-      let im = require("@/assets/绿色传输@3x.png");
       let points = [
-        { value: [118.8062, 31.9208], itemStyle: { color: "blue" } },
-        { value: [127.9688, 45.368], itemStyle: { color: "#4fb6d2" } },
-        // { value: [110.3467, 41.4899], itemStyle: { color: "#52b9c7" } },
-        // { value: [125.8154, 44.2584], itemStyle: { color: "#5abead" } },
-        // { value: [116.4551, 40.2539], itemStyle: { color: "#f34e2b" } },
-        // { value: [123.1238, 42.1216], itemStyle: { color: "#f56321" } },
-        // { value: [114.4995, 38.1006], itemStyle: { color: "#f56f1c" } },
-        // { value: [117.4219, 39.4189], itemStyle: { color: "#f58414" } },
-        // { value: [112.3352, 37.9413], itemStyle: { color: "#f58f0e" } },
-        // { value: [109.1162, 34.2004], itemStyle: { color: "#f5a305" } },
-        // { value: [103.5901, 36.3043], itemStyle: { color: "#e7ab0b" } },
-        // { value: [106.3586, 38.1775], itemStyle: { color: "#dfae10" } },
-        // { value: [101.4038, 36.8207], itemStyle: { color: "#d5b314" } },
-        // { value: [103.9526, 30.7617], itemStyle: { color: "#c1bb1f" } },
-        // { value: [108.384366, 30.439702], itemStyle: { color: "#b9be23" } },
-        // { value: [113.0823, 28.2568], itemStyle: { color: "#a6c62c" } },
-        // { value: [102.9199, 25.46639], itemStyle: { color: "#96cc34" } },
-        { value: [119.4543, 25.9222] },
+        {
+          value: [120.374402 + 0.3, 36.168923],
+          name: `${this.local.staby_desc}同城`,
+          symbolSize: this.local.stabydb_isalert == 0 ? 1 : 50,
+          itemStyle: { color: "blue" },
+        },
+        {
+          value: [118.66471 + 0.3, 37.434564],
+          name: `${this.noLocal.staby_desc||'无'}异地`,
+          symbolSize: this.noLocal.stabydb_isalert == 0 ? 1 : 50,
+          label: {
+            offset: [0, -0],
+          },
+          itemStyle: { color: "#4fb6d2" },
+        },
+        {
+          value: [120.525121 + 0.3, 36.866232],
+          symbolSize: this.local.primarydb_isalert == 0 ? 1 : 50,
+          name: `${this.local.primary_desc}主库`,
+        },
       ];
-      // var uploadedDataURL = "/asset/get/s/data-1482909892121-BJ3auk-Se.json";
+      let centerPoints = [
+        {
+          value: [
+            (120.374402 + 120.525121) / 2 - 0.3,
+            (36.168923 + 36.866232) / 2,
+          ],
+          name: "A(秒)",
+          delay: this.local.apply_delay,
+          symbolSize: this.local.apply_isalert == 0 ? 1 : 50,
+          label: {
+            position: "left",
+            offset: [0, -5],
+          },
+          itemStyle: { color: "blue" },
+        },
+        {
+          value: [
+            (120.374402 + 120.525121) / 2 + 0.3,
+            (36.168923 + 36.866232) / 2,
+          ],
+          name: "T(秒)",
+          delay: this.local.trans_delay,
+          symbolSize: this.local.trans_isalert == 0 ? 1 : 50,
+          label: {
+            position: "right",
+            offset: [0, -5],
+          },
+          itemStyle: { color: "blue" },
+        },
+        {
+          value: [
+            (120.525121 + 118.66471) / 2 - 0.4,
+            (37.434564 + 36.866232) / 2,
+          ],
+          name: "A(秒)",
+          delay: this.noLocal.apply_delay,
+          symbolSize: this.noLocal.apply_isalert == 0 ? 1 : 50,
+          label: {
+            offset: [0, 5],
+          },
+          itemStyle: { color: "red" },
+        },
+        {
+          value: [
+            (120.525121 + 118.66471) / 2 + 0.4,
+            (37.434564 + 36.866232) / 2,
+          ],
+          delay: this.noLocal.trans_delay,
+          symbolSize: this.noLocal.trans_isalert == 0 ? 1 : 50,
+          name: "T(秒)",
+          label: {
+            position: "right",
+            offset: [0, -5],
+          },
+          itemStyle: { color: "red" },
+        },
+      ];
       memoryChart.showLoading();
       let index = -1;
+      let appendData1 = transtodata(
+        transtomap(
+          [
+            [120.525121, 36.866232],
+            [120.374402, 36.168923],
+          ],
+          4
+        ),
+        55,
+        [this.local.apply_isalert, this.local.trans_isalert,this.local.stabydb_isalert]
+      );
+      let appendData2 = transtodata(
+        transtomap(
+          [
+            [120.525121, 36.866232],
+            [118.66471, 37.434564],
+          ],
+          5
+        ),
+        -80,
+        [this.noLocal.apply_isalert, this.noLocal.trans_isalert,this.noLocal.stabydb_isalert]
+      );
+      console.log(appendData2);
       memoryChart.hideLoading();
       let option = {
-        // grapghic: [
-        //   {
-        //     type: "image",
-        //     z: 999,
-        //     style: {
-        //       image: im,
-        //     },
-        //   },
-        //   {
-        //     type: "text",
-        //     left: "center",
-        //     top: "40%",
-        //     style: {
-        //       text: "运动达标率",
-        //       textAlign: "center",
-        //       fill: "#333",
-        //       fontSize: 20,
-        //       fontWeight: 700,
-        //     },
-        //   },
-        // ],
         backgroundColor: "transparent",
+        title: {
+          left: 20,
+          bottom: 20,
+          text: "A:应用延时；T:传输延时",
+        },
         geo: {
-          map: "china",
+          map: "山东",
           aspectScale: 0.75, //长宽比
-          zoom: 1.1,
+          // zoom: 1.1,
           roam: false,
           itemStyle: {
             normal: {
@@ -86,166 +178,99 @@ export default {
                 globalCoord: true, // 缺省为 false
               },
               shadowColor: "rgb(58,115,192)",
-              shadowOffsetX: 10,
-              shadowOffsetY: 11,
+              shadowOffsetX: 1,
+              shadowOffsetY: 1,
             },
-            emphasis: {
-              areaColor: "#2AB8FF",
-              borderWidth: 0,
-              color: "green",
-              label: {
-                show: false,
-              },
-            },
-          },
-          regions: [
-            {
-              name: "南海诸岛",
-              itemStyle: {
-                areaColor: "rgba(0, 10, 52, 1)",
+            // emphasis:{
+            //   label:{
+            //     show:true,
 
-                borderColor: "rgba(0, 10, 52, 1)",
-                normal: {
-                  opacity: 0,
-                  label: {
-                    show: false,
-                    color: "#009cc9",
-                  },
-                },
-              },
-            },
-          ],
+            //   }
+
+            // }
+          },
         },
         series: [
           {
-            type: "map",
-            roam: false,
-            label: {
-              normal: {
-                show: false,
-                textStyle: {
-                  color: "#1DE9B6",
-                },
-              },
-              emphasis: {
-                textStyle: {
-                  color: "rgb(183,185,14)",
-                },
-              },
-            },
-
-            itemStyle: {
-              normal: {
-                borderColor: "rgb(147, 235, 248)",
-                borderWidth: 1,
-                areaColor: {
-                  type: "radial",
-                  x: 0.5,
-                  y: 0.5,
-                  r: 0.8,
-                  colorStops: [
-                    {
-                      offset: 0,
-                      color: "#09132c", // 0% 处的颜色
-                    },
-                    {
-                      offset: 1,
-                      color: "#274d68", // 100% 处的颜色
-                    },
-                  ],
-                  globalCoord: true, // 缺省为 false
-                },
-              },
-              emphasis: {
-                areaColor: "rgb(46,229,206)",
-                //    shadowColor: 'rgb(12,25,50)',
-                borderWidth: 0.1,
-              },
-            },
-            zoom: 1.1,
-            //     roam: false,
-            map: "china", //使用
-            // data: this.difficultData //热力图数据   不同区域 不同的底色
-          },
-          {
-            type: "effectScatter",
+            type: "scatter",
             coordinateSystem: "geo",
             showEffectOn: "render",
-            zlevel: 1,
+            zlevel: 6,
+            rippleEffect: {
+              period: 4,
+              scale: 4,
+              brushType: "stroke",
+            },
+            effectType: "ripple",
+            hoverAnimation: true,
+            label: {
+              normal: {
+                formatter: (params) => {
+                  console.log(typeof params.data.delay);
+                  return params.name + ":\n" + (params.data.delay||'无法连接');
+                },
+                position: "left",
+                offset: [20, 10],
+                color: "#1DE9B6",
+                fontSize: 15,
+                show: true,
+              },
+            },
+            itemStyle: {
+              normal: {
+                color: "#1DE9B6",
+                shadowBlur: 10,
+                shadowColor: "#333",
+              },
+            },
+            symbol: "image:///报警闪烁光点@3x.png",
+            symbolSize: 50,
+            data: centerPoints,
+          },
+          {
+            type: "scatter",
+            coordinateSystem: "geo",
+            showEffectOn: "render",
+            zlevel: 3,
             rippleEffect: {
               period: 15,
               scale: 4,
-              brushType: "fill",
+              brushType: "stroke",
             },
             hoverAnimation: true,
             label: {
               normal: {
                 formatter: "{b}",
                 position: "right",
-                offset: [15, 0],
+                offset: [0, 0],
                 color: "#1DE9B6",
+                fontSize: 15,
                 show: true,
               },
             },
             itemStyle: {
               normal: {
-                color:
-                  "#1DE9B6" /* function (value){ //随机颜色
- return "#"+("00000"+((Math.random()*16777215+0.5)>>0).toString(16)).slice(-6);
- }*/,
+                color: "#1DE9B6",
                 shadowBlur: 10,
                 shadowColor: "#333",
               },
             },
-            symbolSize: 12,
+            symbol: "image:///报警闪烁光点@3x.png",
+            symbolSize: 50,
             data: points,
-          }, //地图线的动画效果
-          {
-            type: "lines",
-            zlevel: 2,
-            effect: {
-              show: true,
-              period: 4, //箭头指向速度，值越小速度越快
-              trailLength: 0.4, //特效尾迹长度[0,1]值越大，尾迹越长重
-              symbol: "arrow", //箭头图标
-              symbolSize: 7, //图标大小
-            },
-            lineStyle: {
-              normal: {
-                color: "#1DE9B6",
-                width: 4, //线条宽度
-                opacity: 0.1, //尾迹线条透明度
-                curveness: 0.3, //尾迹线条曲直度
-              },
-            },
-            data: [
-              {
-                coords: [
-                  [118.8062, 31.9208],
-                  [119.4543, 25.9222],
-                ],
-                lineStyle: { color: "green" },
-                label: {
-                  show: true,
-                },
-              },
-              {
-                coords: [
-                  [119.4543, 25.9222],
-                  [127.9688, 45.368],
-                ],
-                lineStyle: { color: "red" },
-                label: {
-                  show: true,
-                },
-              },
-            ],
           },
+          ...appendData1,
+          ...appendData2,
         ],
       };
       memoryChart.setOption(option, {
         notMerge: true,
       });
+
+      //  option.series.push(appendData);
+      //  console.log(option);
+      //  memoryChart.setOption(option,{ notMerge: true,});
+      //memoryChart.appendData({data:[appendData]});
       window.addEventListener("resize", () => {
         console.log("resize");
         requestAnimationFrame(() => {

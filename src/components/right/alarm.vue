@@ -68,7 +68,7 @@ export default {
           position: ["50%", "50%"],
         },
         grid: {
-          top: "4%",
+          top: "0%",
           left: "3%",
           right: "4%",
           bottom: "3%",
@@ -89,14 +89,16 @@ export default {
             //   },
             // },
             label: {
-              position: "outer",
-              alignTo: "labelLine",
-              bleedMargin: 5,
-
+              // position: "outer",
+             alignTo: "edge",
+              // verticalAlign: "center",
+              // formatter: "{b}:\n{c}%",
+              position:'outer',
+              margin:10,
               // position: "outside",
               // alignTo: "edge",
               // margin: "25%",
-              formatter: "告警级别{b}:\n{c}%",
+              formatter: "告警级别{b}:\n{c}({d}%)",
             },
             data: this.memoryData,
           },
@@ -118,7 +120,7 @@ export default {
         tooltip: {
           trigger: "item",
           formatter: "{a} <br/>{b}: {c} ({d}%)",
-          position: ["30%", "30%"],
+          position: ["0%", "0%"],
         },
         grid: {
           top: "4%",
@@ -135,10 +137,15 @@ export default {
             center: ["50%", "50%"],
             data: this.healthData,
             label: {
-              position: "outer",
-              alignTo: "labelLine",
-              bleedMargin: 5,
-              formatter: "{b}:\n{c}%",
+              alignTo: "edge",
+              // verticalAlign: "center",
+              // formatter: "{b}:\n{c}%",
+              position:'outer',
+              margin:10,
+              formatter:(params)=>{
+                console.log(params);
+                return params.name+":\n"+params.value+`(${params.percent}%)`
+              }
             },
           },
         ],

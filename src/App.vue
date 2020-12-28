@@ -2,30 +2,41 @@
   <div id="app">
     <div class="nav">
       <p>大数据分析图</p>
+      <el-popover width="200" trigger="click" class="select select_shili">
+        <el-select v-model="select_shili" size="mini" @change="changeShili">
+          <el-option
+            v-for="item in list"
+            :key="item.ins_id"
+            :value="item.ins_id"
+            :label="item.ins_desc"
+          ></el-option>
+        </el-select>
+        <span slot="reference" class="titel_span">配置实例</span>
+      </el-popover>
     </div>
     <div class="container">
       <div class="center">
-        <div class="left">
-          <div class="memory_content">
+        <div class="left" >
+          <div class="memory_content" style="height:19.4vh">
             <div class="title">
               <p>内存使用和数据库健康</p>
             </div>
             <memory />
           </div>
-          <div class="memory_content" style="min-height: 16rem">
+          <div class="memory_content" style="min-height: 16rem;height:26.418vh">
             <div class="title">
               <p>网络流量分析</p>
             </div>
             <internet />
           </div>
-          <div class="memory_content">
+          <div class="memory_content" style="height:19.4vh">
             <div class="title">
               <p>存储性能</p>
             </div>
             <store />
           </div>
         </div>
-        <div class="right">
+        <div class="right" >
           <div class="map_center">
             <div class="map">
               <div class="memory_content">
@@ -36,19 +47,19 @@
               </div>
             </div>
             <div class="other">
-              <div class="memory_content">
+              <div class="memory_content" style="height:19.4vh">
                 <div class="title">
                   <p>告警信息</p>
                 </div>
                 <alarm />
               </div>
-              <div class="memory_content" style="min-height: 16rem">
+              <div class="memory_content" style="min-height: 16rem;height:26.418vh">
                 <div class="title">
                   <p>存储空间使用信息</p>
                 </div>
                 <storage />
               </div>
-              <div class="memory_content">
+              <div class="memory_content" style="height:19.4vh">
                 <div class="title">
                   <p>表空间信息</p>
                 </div>
@@ -58,7 +69,7 @@
           </div>
         </div>
       </div>
-      <div class="bottom">
+      <div class="bottom" style="height:19.4vh">
         <div class="cpu">
           <div class="memory_content">
             <div class="title">
@@ -71,18 +82,33 @@
           <div class="memory_content">
             <div class="title">
               <p>告警信息</p>
-              <el-popover width="200" trigger="click" class="select select_shili">
-                <el-select  v-model="select_shili" size="mini" @change="changeShili">
-                  <el-option v-for="item in list" :key="item.ins_id" :value="item.ins_id" :label="item.ins_desc"></el-option>
+              <el-popover
+                width="200"
+                trigger="click"
+                class="select select_shili"
+              >
+                <el-select
+                  v-model="select_real_shili"
+                  size="mini"
+                  @change="changerealShili"
+                >
+                  <el-option value="1" label="当前实例"></el-option>
+                  <el-option value="2" label="所有实例"></el-option>
                 </el-select>
                 <span slot="reference" class="titel_span">选择实例</span>
               </el-popover>
               <el-popover width="200" trigger="click" class="select">
-                <el-select multiple v-model="select" size="mini" style="" @change="chooseLevel">
-                  <el-option :value="1" label="一级"></el-option>
-                  <el-option :value="2" label="二级"></el-option>
-                  <el-option :value="3" label="三级"></el-option>
-                  <el-option :value="4" label="四级"></el-option>
+                <el-select
+                  multiple
+                  v-model="select"
+                  size="mini"
+                  style=""
+                  @change="chooseLevel"
+                >
+                  <el-option :value="1" label="一级绿色"></el-option>
+                  <el-option :value="2" label="二级黄色"></el-option>
+                  <el-option :value="3" label="三级橙色"></el-option>
+                  <el-option :value="4" label="四级红色"></el-option>
                 </el-select>
                 <span slot="reference" class="titel_span">选择告警顶级</span>
               </el-popover>
@@ -105,7 +131,7 @@ import alarm from "@/components/right/alarm.vue";
 import storage from "@/components/left/storage.vue";
 import tableSpace from "@/components/left/tableSpace.vue";
 import alarmTable from "@/components/left/alarmTable.vue";
-import Cookie from 'js-cookie';
+import Cookie from "js-cookie";
 export default {
   name: "App",
   components: {
@@ -121,9 +147,14 @@ export default {
   },
   data() {
     return {
-      select: Cookie.get('v')?JSON.parse(Cookie.get('v')):[4],
-      list:[],
-      select_shili:Cookie.get('shili')?JSON.parse(Cookie.get('shili')).ins_id:'',
+      select: Cookie.get("v") ? JSON.parse(Cookie.get("v")) : [4],
+      list: [],
+      select_shili: Cookie.get("shili")
+        ? JSON.parse(Cookie.get("shili")).ins_id
+        : "",
+      select_real_shili: Cookie.get("realshili")
+        ? Cookie.get("realshili")
+        : '1',
       obj: {
         position: "absolute",
         right: ".25rem",
@@ -133,22 +164,29 @@ export default {
       },
     };
   },
-  async created(){
-    let data=await this.$http.get('/',{params:{v:JSON.stringify(this.select)}});
-    this.list=data
+  async created() {
+    let data = await this.$http.get("/", {
+      params: {real:this.select_real_shili, v: JSON.stringify(this.select) },
+    });
+    this.list = data;
+    window.addEventListener('resize',()=>{
+      this.$forceUpdate();
+    })
   },
-  methods:{
-    changeShili(v){
-      let data=this.list.find(vi=>vi.ins_id==v);
-      this.$http.post('/index/choose',data).then(()=>{
-        Cookie.set('shili',JSON.stringify(data));
+  methods: {
+    changeShili(v) {
+      let data = this.list.find((vi) => vi.ins_id == v);
+      this.$http.post("/index/choose", data).then(() => {
+        Cookie.set("shili", JSON.stringify(data));
       });
     },
-    chooseLevel(v){
-      console.log(v);
-       Cookie.set('v',JSON.stringify(v));
-    }
-  }
+    chooseLevel(v) {
+      Cookie.set("v", JSON.stringify(v));
+    },
+    changerealShili(v) {
+      Cookie.set("realshili", v);
+    },
+  },
 };
 </script>
 <style lang="less">
@@ -216,12 +254,33 @@ body,
     height: 3.625rem;
     width: 100%;
     display: flex;
+    position: relative;
     justify-content: center;
     align-items: center;
     background-image: url(~@/assets/大数据分析图-背景@3x.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     margin-bottom: 0.625rem;
+    .select {
+      background-color: rgba(0, 0, 0, 0) !important;
+      color: #00f6ff;
+      /deep/ .el-popover__reference-wrapper {
+        background-color: transparent;
+      }
+      position: absolute;
+      right: 3px;
+      top: -11px;
+      width: 5rem;
+      &_shili {
+        right: 103px;
+      }
+      .titel_span {
+        font-size: 0.75rem;
+        &:focus {
+          outline: none;
+        }
+      }
+    }
     p {
       font-size: 2.6875rem;
       font-family: PingFangSC;
@@ -244,7 +303,7 @@ body,
     // overflow: hidden;
     flex: 1;
     .center {
-      flex: 3;
+      flex: 3 3;
       height: 100%;
       width: 100%;
       display: flex;
@@ -259,7 +318,7 @@ body,
         }
       }
       .right {
-        width: 100%;
+        width: 68.85vw;
         height: 100%;
         flex: 1;
         margin-left: 1rem;
@@ -277,7 +336,7 @@ body,
             width: 100%;
             flex: 1;
             height: 100%;
-            margin-right: 1.875rem;
+            margin-right: 1rem;
             padding-bottom: 1rem;
             // padding-right:1rem ;
 
@@ -303,7 +362,7 @@ body,
       display: flex;
       flex-direction: row;
       width: 100%;
-      flex: 1;
+      flex: 1 1;
       .cpu {
         width: 33.75rem;
         height: 100%;
@@ -313,7 +372,7 @@ body,
         }
       }
       .alarm {
-        width: 100%;
+        width: 68.85vw;
         flex: 1;
         margin-left: 0.875rem;
         .memory_content {

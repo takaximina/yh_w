@@ -18,14 +18,14 @@
       align="center"
       prop="alert_sys_date"
     ></el-table-column>
-    <el-table-column label="告警类别" align="center" prop="alert_category_name">
+    <el-table-column label="告警类别" align="center" prop="alert_category_name" show-overflow-tooltip>
       <template slot-scope="scope">
-        {{ scope.row.alert_category_name.substring(0, 20) }}
+        {{ scope.row.alert_category_name }}
       </template>
     </el-table-column>
-    <el-table-column label="告警描述" align="center" prop="alert_type_name">
+    <el-table-column label="告警描述" align="center" prop="alert_type_name" show-overflow-tooltip>
       <template slot-scope="scope">
-        {{ scope.row.alert_type_name.substring(0, 20) }}
+        {{ scope.row.alert_type_name }}
       </template>
     </el-table-column>
   </el-table>
@@ -40,9 +40,9 @@ export default {
     };
   },
   async created() {
-    let data = await this.$http.get("/index/alarm",{params:{v:Cookie.get('v')||JSON.stringify([4])}});
+    let data = await this.$http.get("/index/alarm",{params:{real: Cookie.get("realshili")||'1',v:Cookie.get('v')||JSON.stringify([4])}});
     setInterval(async ()=>{
-      data=await this.$http.get("/index/alarm",{params:{v:Cookie.get('v')||JSON.stringify([4])}});
+      data=await this.$http.get("/index/alarm",{params:{real: Cookie.get("realshili")||'1',v:Cookie.get('v')||JSON.stringify([4])}});
       this.list=data
     },10000)
     this.list = data;
