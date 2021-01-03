@@ -69,7 +69,7 @@
           </div>
         </div>
       </div>
-      <div class="bottom" style="height:19.4vh">
+      <div class="bottom" >
         <div class="cpu">
           <div class="memory_content">
             <div class="title">
@@ -199,7 +199,7 @@ html,
 body,
 #app {
   width: 100%;
-  height: 100%;
+  height: 100vh;
   overflow: hidden;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
@@ -297,14 +297,15 @@ body,
 
   .container {
     width: 100%;
-    height: 100%;
+    height: 0;
     display: flex;
     flex-direction: column;
     // overflow: hidden;
-    flex: 1;
+    flex: 1 1 auto;
+    position: relative;
     .center {
-      flex: 3 3;
-      height: 100%;
+      flex: 3 3 auto;
+      height: 0;
       width: 100%;
       display: flex;
       flex-direction: row;
@@ -362,7 +363,8 @@ body,
       display: flex;
       flex-direction: row;
       width: 100%;
-      flex: 1 1;
+      height: 0;
+      flex: 1 1 auto;
       .cpu {
         width: 33.75rem;
         height: 100%;

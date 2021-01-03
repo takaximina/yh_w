@@ -34,7 +34,7 @@ export default {
   methods: {
     drawMemory() {
       let option1 = {
-        title: {
+        title: [{
           text: "cpu",
           x: "center",
           y: "top",
@@ -44,7 +44,17 @@ export default {
             fontWeight: "normal",
             color: "#00FBFF",
           },
-        },
+        },{
+          text: `负载  ${this.memoryData.load_avg} 分页 ${this.memoryData.pagination}`,
+          left: "center",
+          bottom:"4%",
+          textAlign: "center",
+          textStyle: {
+            fontSize: 12,
+            fontWeight: "normal",
+            color: "#00FBFF",
+          },
+        }],
         backgroundColor: "transparent",
         tooltip: {
           trigger: "item",
@@ -91,7 +101,7 @@ export default {
         ],
       };
       let option2 = {
-        title: {
+        title: [{
           text: "活跃会话",
           x: "center",
           y: "top",
@@ -101,7 +111,17 @@ export default {
             fontWeight: "normal",
             color: "#00FBFF",
           },
-        },
+        },{
+          text: `内核计数  ${this.healthData.cpu_cores}`,
+          left: "center",
+          bottom:"4%",
+          textAlign: "center",
+          textStyle: {
+            fontSize: 12,
+            fontWeight: "normal",
+            color: "#00FBFF",
+          },
+        }],
         backgroundColor: "transparent",
         tooltip: {
           trigger: "item",

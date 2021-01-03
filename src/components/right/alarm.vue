@@ -143,7 +143,7 @@ export default {
               position:'outer',
               margin:10,
               formatter:(params)=>{
-                console.log(params);
+                // console.log(params);
                 return params.name+":\n"+params.value+`(${params.percent}%)`
               }
             },

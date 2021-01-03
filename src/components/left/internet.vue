@@ -102,19 +102,25 @@ export default {
 </script>
 <style lang="less" scoped>
 .com_container {
-  flex: 1;
+  flex: 1 1 auto;
   width: 100%;
-  height: 100%;
+  height: 0;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   .data {
     // height: 3rem;
-    flex: 1;
+    flex: 1 1 auto;
+    height: 33%;
+    width: 100%;
     font-size: 12px;
     color: aqua;
+    border-spacing: 0;
+    border-collapse: unset;
+    // display: block;
     .table {
       width: 100%;
+      display: block;
       tr {
         display: flex;
         flex-direction: row;

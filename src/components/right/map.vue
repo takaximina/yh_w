@@ -41,81 +41,94 @@ export default {
   },
   methods: {
     drawMemory() {
-      let points = [
+      let points1 = [
         {
-          value: [120.374402 + 0.3, 36.168923],
+          value: [121.45, 31.22],
           name: `${this.local.staby_desc}同城`,
-          symbolSize: this.local.stabydb_isalert == 0 ? 1 : 50,
+          symbolSize: 20, //this.local.stabydb_isalert == 0 ? 1 : 50,
           itemStyle: { color: "blue" },
         },
         {
-          value: [118.66471 + 0.3, 37.434564],
-          name: `${this.noLocal.staby_desc||'无'}异地`,
-          symbolSize: this.noLocal.stabydb_isalert == 0 ? 1 : 50,
+          value: [104.07, 30.67],
+          name: `${this.noLocal.staby_desc || "无"}异地`,
+          symbolSize: 20,
           label: {
             offset: [0, -0],
           },
           itemStyle: { color: "#4fb6d2" },
         },
         {
-          value: [120.525121 + 0.3, 36.866232],
+          value: [116.44, 39.73],
+          symbolSize: 20, //this.local.primarydb_isalert == 0 ? 1 : 50,
+          name: `${this.local.primary_desc}主库`,
+        },
+      ];
+      let points = [
+        {
+          value: [121.45 + 4, 31.22],
+          name: `${this.local.staby_desc}同城`,
+          symbolSize: this.local.stabydb_isalert == 0 ? 1 : 50,
+          itemStyle: { color: "blue" },
+        },
+        {
+          value: [104.07 + 4, 30.67],
+          name: `${this.noLocal.staby_desc || "无"}异地`,
+          symbolSize: this.noLocal.stabydb_isalert == 0 ? 1 : 50,
+          label: {
+            position: [0, 40],
+          },
+          itemStyle: { color: "#4fb6d2" },
+        },
+        {
+          value: [116.44 + 4, 39.73],
           symbolSize: this.local.primarydb_isalert == 0 ? 1 : 50,
           name: `${this.local.primary_desc}主库`,
         },
       ];
       let centerPoints = [
         {
-          value: [
-            (120.374402 + 120.525121) / 2 - 0.3,
-            (36.168923 + 36.866232) / 2,
-          ],
+          value: [(116.44 + 121.45) / 2, (39.73 + 31.22) / 2],
           name: "A(秒)",
           delay: this.local.apply_delay,
           symbolSize: this.local.apply_isalert == 0 ? 1 : 50,
-          label: {
-            position: "left",
-            offset: [0, -5],
-          },
+          symbolOffset: [-30, 0],
+            label: {
+              position: this.local.apply_isalert == 0 ?[-40, 0]:[-20,20],
+              // offset: [-40, 0],
+            },
           itemStyle: { color: "blue" },
         },
         {
-          value: [
-            (120.374402 + 120.525121) / 2 + 0.3,
-            (36.168923 + 36.866232) / 2,
-          ],
+          value: [(116.44 + 121.45) / 2, (39.73 + 31.22) / 2],
           name: "T(秒)",
           delay: this.local.trans_delay,
           symbolSize: this.local.trans_isalert == 0 ? 1 : 50,
+          symbolOffset: [30, 0],
           label: {
-            position: "right",
-            offset: [0, -5],
+            position: this.local.trans_isalert == 0 ?[0,0]:[20,20],
           },
           itemStyle: { color: "blue" },
         },
         {
-          value: [
-            (120.525121 + 118.66471) / 2 - 0.4,
-            (37.434564 + 36.866232) / 2,
-          ],
+          value: [(116.44 + 104.07) / 2, (39.73 + 30.67) / 2],
           name: "A(秒)",
           delay: this.noLocal.apply_delay,
           symbolSize: this.noLocal.apply_isalert == 0 ? 1 : 50,
+          symbolOffset: [-30, 0],
           label: {
-            offset: [0, 5],
+            position:this.noLocal.apply_isalert == 0 ?[-80,-30]: [-60, 0],
+            // offset: [-40, 0],
           },
           itemStyle: { color: "red" },
         },
         {
-          value: [
-            (120.525121 + 118.66471) / 2 + 0.4,
-            (37.434564 + 36.866232) / 2,
-          ],
+          value: [(116.44 + 104.07) / 2, (39.73 + 30.67) / 2],
           delay: this.noLocal.trans_delay,
           symbolSize: this.noLocal.trans_isalert == 0 ? 1 : 50,
           name: "T(秒)",
+          symbolOffset: [0, 20],
           label: {
-            position: "right",
-            offset: [0, -5],
+            position: this.noLocal.trans_isalert == 0 ?[-20,0]:[0,30],
           },
           itemStyle: { color: "red" },
         },
@@ -125,24 +138,32 @@ export default {
       let appendData1 = transtodata(
         transtomap(
           [
-            [120.525121, 36.866232],
-            [120.374402, 36.168923],
+            [116.44, 39.73],
+            [121.45, 31.22],
           ],
           4
         ),
-        55,
-        [this.local.apply_isalert, this.local.trans_isalert,this.local.stabydb_isalert]
+        120,
+        [
+          this.local.apply_isalert,
+          this.local.trans_isalert,
+          this.local.stabydb_isalert,
+        ]
       );
       let appendData2 = transtodata(
         transtomap(
           [
-            [120.525121, 36.866232],
-            [118.66471, 37.434564],
+            [116.44, 39.73],
+            [104.07, 30.67],
           ],
           5
         ),
-        -80,
-        [this.noLocal.apply_isalert, this.noLocal.trans_isalert,this.noLocal.stabydb_isalert]
+        20,
+        [
+          this.noLocal.apply_isalert,
+          this.noLocal.trans_isalert,
+          this.noLocal.stabydb_isalert,
+        ]
       );
       console.log(appendData2);
       memoryChart.hideLoading();
@@ -151,13 +172,13 @@ export default {
         title: {
           left: 20,
           bottom: 20,
-          text: "A:应用延时；T:传输延时",
+          text: "A:应用延时\nT:传输延时",
         },
         geo: {
-          map: "山东",
+          map: "china",
           aspectScale: 0.75, //长宽比
           // zoom: 1.1,
-          roam: false,
+          roam: true,
           itemStyle: {
             normal: {
               areaColor: {
@@ -192,14 +213,14 @@ export default {
         },
         series: [
           {
-            type: "scatter",
+            type: "effectScatter",
             coordinateSystem: "geo",
             showEffectOn: "render",
             zlevel: 6,
             rippleEffect: {
               period: 4,
               scale: 4,
-              brushType: "stroke",
+              brushType: "fill",
             },
             effectType: "ripple",
             hoverAnimation: true,
@@ -207,12 +228,14 @@ export default {
               normal: {
                 formatter: (params) => {
                   console.log(typeof params.data.delay);
-                  return params.name + ":\n" + (params.data.delay||'无法连接');
+                  return (
+                    params.name + ":\n" + (params.data.delay || "无法连接")
+                  );
                 },
                 position: "left",
                 offset: [20, 10],
                 color: "#1DE9B6",
-                fontSize: 15,
+                fontSize: 10,
                 show: true,
               },
             },
@@ -226,6 +249,38 @@ export default {
             symbol: "image:///报警闪烁光点@3x.png",
             symbolSize: 50,
             data: centerPoints,
+          },
+          {
+            type: "effectScatter",
+            coordinateSystem: "geo",
+            showEffectOn: "render",
+            zlevel: 3,
+            rippleEffect: {
+              period: 15,
+              scale: 4,
+              brushType: "stroke",
+            },
+            hoverAnimation: true,
+            label: {
+              normal: {
+                formatter: "{b}",
+                position: "right",
+                offset: [0, 0],
+                color: "#1DE9B6",
+                fontSize: 12,
+                show: true,
+              },
+            },
+            itemStyle: {
+              normal: {
+                color: "#1DE9B6",
+                shadowBlur: 10,
+                shadowColor: "#333",
+              },
+            },
+            symbol: "image:///报警闪烁光点@3x.png",
+            symbolSize: 50,
+            data: points,
           },
           {
             type: "scatter",
@@ -244,8 +299,8 @@ export default {
                 position: "right",
                 offset: [0, 0],
                 color: "#1DE9B6",
-                fontSize: 15,
-                show: true,
+                fontSize: 12,
+                show: false,
               },
             },
             itemStyle: {
@@ -255,9 +310,9 @@ export default {
                 shadowColor: "#333",
               },
             },
-            symbol: "image:///报警闪烁光点@3x.png",
-            symbolSize: 50,
-            data: points,
+            symbol: "image:///服务器图@3x.png",
+            symbolSize: 20,
+            data: points1,
           },
           ...appendData1,
           ...appendData2,

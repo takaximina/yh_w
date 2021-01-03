@@ -260,7 +260,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .com_container {
-  flex: 1;
+  flex: 1 1 auto;
   width: 100%;
   height: 100%;
   display: flex;
@@ -270,6 +270,7 @@ export default {
     // height: 3rem;
     flex: 1;
     height: 100%;
+    width: 100%;
     font-size: 12px;
     color: aqua;
     .table {
@@ -277,14 +278,14 @@ export default {
       height: 100%;
       display: flex;
       flex-direction: column;
-
+      flex:1;
       tr {
         display: flex;
         flex-direction: row;
         &.shuitong {
           height: 100%;
           // max-height: 10rem;
-          flex: 1;
+          flex: 1 1 auto;
           .title {
             padding: 0;
             height: 100%;
