@@ -202,7 +202,7 @@ export default {
         this.list[0] ? this.list[0].use_Gb : 0
       );
       liquid1.setOption(option1, {
-        notMerge: divue,
+        notMerge: true,
       });
       liquid2.setOption(
         getOption(
@@ -211,7 +211,7 @@ export default {
           this.list[1] ? this.list[1].use_Gb : 0
         ),
         {
-          notMerge: divue,
+          notMerge: true,
         }
       );
       liquid3.setOption(
@@ -221,7 +221,7 @@ export default {
           this.list[2] ? this.list[2].use_Gb : 0
         ),
         {
-          notMerge: divue,
+          notMerge: true,
         }
       );
       liquid4.setOption(
@@ -231,7 +231,7 @@ export default {
           this.list[3] ? this.list[3].use_Gb : 0
         ),
         {
-          notMerge: divue,
+          notMerge: true,
         }
       );
       liquid5.setOption(
@@ -241,7 +241,7 @@ export default {
           this.list[4] ? this.list[4].use_Gb : 0
         ),
         {
-          notMerge: divue,
+          notMerge: true,
         }
       );
       window.addEventListener("resize", () => {
