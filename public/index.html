@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+  <title>
+    <%= htmlWebpackPlugin.options.title %>
+  </title>
+  <script src="https://cdn.staticfile.org/echarts/4.9.0-rc.1/echarts.min.js"></script>
+  <!-- <script src="<%= BASE_URL %>js/shandong.js"></script> -->
+  <!-- <script src="<%= BASE_URL %>js/hunan.js"></script> -->
+  <script src="<%= BASE_URL %>china.js"></script>
+  <script src="<%= BASE_URL %>libquil.js"></script>
+  <!-- <script src="https://www.echartsjs.com/resource/echarts-liquidfill-latest/dist/echarts-liquidfill.min.js"></script> -->
+  <script>
+    //let initScale = 1 / window.devicePixelRatio; document.write('<meta name="viewport" content="width=device-width,user-scalable=no，initial-scale=' + initScale + ',minimum-scale=' + initScale + ',maximum-scale=' + initScale + '">');
+    let initWidth = window.document.documentElement.clientWidth; document.getElementsByTagName('html')[0].style.fontSize = initWidth / 1920*16 + 'px';
+  </script>
+</head>
+
+<body>
+  <noscript>
+    <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled.
+        Please enable it to continue.</strong>
+  </noscript>
+  <div id="app"></div>
+  <!-- built files will be auto injected -->
+</body>
+
+</html>
