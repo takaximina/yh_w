@@ -32,7 +32,6 @@ export default {
         this.local?.stabydb_isalert === this.oldlocal?.stabydb_isalert &&
         this.oldnoLocal?.stabydb_isalert === this.noLocal?.stabydb_isalert
       );
-      console.log(this.local,this.noLocal,this.oldlocal,this.neadclear);
       this.oldlocal=this.local;
       this.oldnoLocal=this.noLocal;
       this.$nextTick(() => {
