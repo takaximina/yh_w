@@ -74,7 +74,7 @@ export default {
           align: "right",
           left: "right",
           top: "middle",
-          data: ["其他","实例", ],
+          data: ["其他",this.memoryData.db_sidname, ],
         },
         xAxis: [
           {
@@ -86,14 +86,14 @@ export default {
         grid: {
           top: "20%",
           // left: "3%",
-          // right: "4%",
+          right: "20%",
           bottom: "10%",
           containLabel: true,
         },
 
         series: [
           {
-            name: "实例",
+            name: this.memoryData.db_sidname,
             type: "bar",
             barWidth: 20,
             stack: "主机CPU",
@@ -163,7 +163,7 @@ export default {
         grid: {
           top: "20%",
           // left: "3%",
-          // right: "4%",
+          right: "20%",
           bottom: "10%",
           containLabel: true,
         },
@@ -197,7 +197,7 @@ export default {
         notMerge: true,
       });
       window.addEventListener("resize", () => {
-        console.log("resize");
+        // console.log("resize");
         requestAnimationFrame(() => {
           memoryChart1.resize();
           memoryChart2.resize();

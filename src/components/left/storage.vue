@@ -31,7 +31,7 @@
 </template>
 <script>
 function getOption(data, level, use) {
-  console.log(data, level, use);
+  // console.log(data, level, use);
   let color =
     level === 0
       ? "green"
@@ -245,7 +245,7 @@ export default {
         }
       );
       window.addEventListener("resize", () => {
-        console.log("resize");
+        // console.log("resize");
         requestAnimationFrame(() => {
           liquid1.resize();
           liquid2.resize();

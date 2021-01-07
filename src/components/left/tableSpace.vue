@@ -139,7 +139,7 @@ export default {
         notMerge: true,
       });
       window.addEventListener("resize", () => {
-        console.log("resize");
+        // console.log("resize");
         requestAnimationFrame(() => {
           memoryChart1.resize();
         });

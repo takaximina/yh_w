@@ -12,35 +12,41 @@ export default {
     return {
       local: {},
       noLocal: {},
+      oldlocal: {},
+      oldnoLocal: {},
+      neadclear: false,
     };
   },
   async mounted() {
     memoryChart = echarts.init(document.getElementById("map"), "dark");
     let data = await this.$http.get("/index/adg");
-    this.local = Object.assign(
-      this.local,
-      data.find((v) => v.is_local == 0)
-    );
-    this.noLocal = Object.assign(
-      this.noLocal,
-      data.find((v) => v.is_local == 1)
-    );
+    this.local = data.find((v) => v.is_local === 0) || {};
+    this.noLocal = data.find((v) => v.is_local === 1) || {};
+    this.oldlocal = this.local;
+    this.oldnoLocal = this.noLocal;
     setInterval(async () => {
       data = await this.$http.get("/index/adg");
-      this.local = Object.assign(
-        this.local,
-        data.find((v) => v.is_local == 0)
+      this.local = data.find((v) => v.is_local === 0) || {};
+      this.noLocal = data.find((v) => v.is_local === 1) || {};
+      this.neadclear = !(
+        this.local?.stabydb_isalert === this.oldlocal?.stabydb_isalert &&
+        this.oldnoLocal?.stabydb_isalert === this.noLocal?.stabydb_isalert
       );
-      this.noLocal = Object.assign(
-        this.noLocal,
-        data.find((v) => v.is_local == 1)
-      );
-      this.drawMemory();
+      console.log(this.local,this.noLocal,this.oldlocal,this.neadclear);
+      this.oldlocal=this.local;
+      this.oldnoLocal=this.noLocal;
+      this.$nextTick(() => {
+        this.drawMemory();
+      });
     }, 10000);
     this.drawMemory();
   },
   methods: {
     drawMemory() {
+      if(this.neadclear){
+        memoryChart.clear();
+      }
+      
       let points1 = [
         {
           value: [121.45, 31.22],
@@ -73,9 +79,9 @@ export default {
         {
           value: [104.07 + 4, 30.67],
           name: `${this.noLocal.staby_desc || "无"}异地`,
-          symbolSize: this.noLocal.stabydb_isalert == 1 ? 50: 1,
+          symbolSize: this.noLocal.stabydb_isalert === 1 ? 50 : 1,
           label: {
-            position: [0, 40],
+            position: this.noLocal.stabydb_isalert === 1 ? [0, 40] : [0, 20],
           },
           itemStyle: { color: "#4fb6d2" },
         },
@@ -116,7 +122,7 @@ export default {
           symbolSize: this.noLocal.apply_isalert === 1 ? 50 : 1,
           symbolOffset: [-30, 0],
           label: {
-            position: this.noLocal.apply_isalert ===1 ?  [-60, 0]:[-80, -30] ,
+            position: this.noLocal.apply_isalert === 1 ? [-60, 0] : [-80, -30],
             // offset: [-40, 0],
           },
           itemStyle: { color: "red" },
@@ -128,7 +134,7 @@ export default {
           name: "T(秒)",
           symbolOffset: [0, 20],
           label: {
-            position: this.noLocal.trans_isalert ===1 ?  [0, 30]:[-20, 0] ,
+            position: this.noLocal.trans_isalert === 1 ? [0, 30] : [-20, 0],
           },
           itemStyle: { color: "red" },
         },
@@ -165,7 +171,6 @@ export default {
           this.noLocal.stabydb_isalert,
         ]
       );
-      console.log(appendData2);
       memoryChart.hideLoading();
       let option = {
         backgroundColor: "transparent",
@@ -227,9 +232,12 @@ export default {
             label: {
               normal: {
                 formatter: (params) => {
-                  console.log(typeof params.data.delay);
                   return (
-                    params.name + ":\n" + (params.data.delay ==undefined?"无法连接":params.data.delay)
+                    params.name +
+                    ":\n" +
+                    (params.data.delay == undefined
+                      ? "无法连接"
+                      : params.data.delay)
                   );
                 },
                 position: "left",
@@ -317,17 +325,17 @@ export default {
           ...appendData1,
           ...appendData2,
         ],
+        // blendMode:"destination-over"
       };
+      // console.log(option);
       memoryChart.setOption(option, {
         notMerge: true,
       });
-
       //  option.series.push(appendData);
       //  console.log(option);
       //  memoryChart.setOption(option,{ notMerge: true,});
       //memoryChart.appendData({data:[appendData]});
       window.addEventListener("resize", () => {
-        console.log("resize");
         requestAnimationFrame(() => {
           memoryChart.resize();
         });
