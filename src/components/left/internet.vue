@@ -28,11 +28,12 @@
           <div class="title"><span>输入流量</span>&nbsp;&nbsp;&nbsp;&nbsp;</div>
           <div class="ponit"><span>：</span></div>
           <div class="content">
-            <span v-if="list[item - 1]"
+            <span v-if="list[item - 1]" 
+            
               >{{
                 list[item - 1] ? list[item - 1]["input_flow"] : ""
-              }}Kbps</span
-            ><el-progress
+              }}Kbps</span>
+              <el-progress
               style="flex: 1; width: 100%"
               v-if="list[item - 1]"
               :percentage="
@@ -41,7 +42,7 @@
               :color="
                 customColor(
                   list[item - 1]
-                    ? list[item - 1]['input_ratio_isalert'] * 100
+                    ? list[item - 1]['input_ratio_isalert'] 
                     : 0
                 )
               "
@@ -65,7 +66,7 @@
               :color="
                 customColor(
                   list[item - 1]
-                    ? list[item - 1]['output_ratio_isalert'] * 100
+                    ? list[item - 1]['output_ratio_isalert'] 
                     : 0
                 )
               "
@@ -143,6 +144,9 @@ export default {
           }
           i.el-icon-close {
             background-color: red;
+          }
+          /deep/ .el-progress__text{
+            color: aqua;
           }
           flex: 1;
           width: 100%;

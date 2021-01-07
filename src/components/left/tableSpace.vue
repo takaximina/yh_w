@@ -80,6 +80,7 @@ export default {
         },
         xAxis: {
           type: "category",
+          axisLabel: {interval : 0},
           data: this.data1.map((v) => v.tabspace_name),
         },
         yAxis: {

@@ -5,6 +5,7 @@ module.exports={
          'echarts': 'echarts'
         }
       },
+      productionSourceMap: false,
       devServer: {
         port: 8001,
         disableHostCheck: true,

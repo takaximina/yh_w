@@ -217,7 +217,7 @@ body,
     color: #00f6ff;
     height: 1.875rem;
     margin-top: 0.9375rem;
-    background-image: url(~@/assets/标题文字-背景@3x.png);
+    background-image: url(~@/assets/titlebg.png);
     background-size: 80% 200%;
     background-repeat: no-repeat;
     background-position: 50% 0;
@@ -247,7 +247,7 @@ body,
 #app {
   display: flex;
   padding: 1.375rem;
-  background-image: url(~@/assets/大背景图@3x.png);
+  background-image: url(~@/assets/bigbg.png);
   display: flex;
   flex-direction: column;
   .nav {
@@ -257,7 +257,7 @@ body,
     position: relative;
     justify-content: center;
     align-items: center;
-    background-image: url(~@/assets/大数据分析图-背景@3x.png);
+    background-image: url(~@/assets/bdbg.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     margin-bottom: 0.625rem;

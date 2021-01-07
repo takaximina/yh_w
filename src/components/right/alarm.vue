@@ -25,23 +25,77 @@ export default {
     let data1 = await this.$http.get("/index/level");
     let data2 = await this.$http.get("/index/class");
     this.memoryData = data1.map((v) => {
-      return { name: v.alert_level, value: v.alert_nums };
+      return {
+        name: v.alert_level,
+        value: v.alert_nums,
+        itemStyle: {
+          color:
+            v.alert_level === 0
+              ? "green"
+              : v.alert_level === 1
+              ? "yellow"
+              : v.alert_level === 2
+              ? "orange"
+              : "red",
+        },
+      };
     });
     this.healthData = data2
       .sort((a, b) => a.alert_nums - b.alert_nums)
       .map((v) => {
-        return { name: v.alert_class, value: v.alert_nums, ...v };
+        return {
+          name: v.alert_class,
+          value: v.alert_nums,
+          ...v,
+          // itemStyle: {
+          //   color:
+          //     v.alert_level === 0
+          //       ? "green"
+          //       : v.alert_level === 1
+          //       ? "yellow"
+          //       : v.alert_level === 2
+          //       ? "orange"
+          //       : "red",
+          // },
+        };
       });
     setInterval(async () => {
       data1 = await this.$http.get("/index/level");
       data2 = await this.$http.get("/index/class");
       this.memoryData = data1.map((v) => {
-        return { name: v.alert_level, value: v.alert_nums };
+        return {
+          name: v.alert_level,
+          value: v.alert_nums,
+          itemStyle: {
+            color:
+              v.alert_level === 0
+                ? "green"
+                : v.alert_level === 1
+                ? "yellow"
+                : v.alert_level === 2
+                ? "orange"
+                : "red",
+          },
+        };
       });
       this.healthData = data2
         .sort((a, b) => a.alert_nums - b.alert_nums)
         .map((v) => {
-          return { name: v.alert_class, value: v.alert_nums, ...v };
+          return {
+            name: v.alert_class,
+            value: v.alert_nums,
+            ...v,
+            // itemStyle: {
+            //   color:
+            //     v.alert_level === 0
+            //       ? "green"
+            //       : v.alert_level === 1
+            //       ? "yellow"
+            //       : v.alert_level === 2
+            //       ? "orange"
+            //       : "red",
+            // },
+          };
         });
       this.drawMemory();
     }, 10000);
@@ -90,15 +144,15 @@ export default {
             // },
             label: {
               // position: "outer",
-             alignTo: "edge",
+              alignTo: "edge",
               // verticalAlign: "center",
               // formatter: "{b}:\n{c}%",
-              position:'outer',
-              margin:10,
+              position: "outer",
+              margin: 10,
               // position: "outside",
               // alignTo: "edge",
               // margin: "25%",
-              formatter: "告警级别{b}:\n{c}({d}%)",
+              formatter: "告警级别{b}:\n{c}",
             },
             data: this.memoryData,
           },
@@ -140,12 +194,12 @@ export default {
               alignTo: "edge",
               // verticalAlign: "center",
               // formatter: "{b}:\n{c}%",
-              position:'outer',
-              margin:10,
-              formatter:(params)=>{
+              position: "outer",
+              margin: 10,
+              formatter: (params) => {
                 // console.log(params);
-                return params.name+":\n"+params.value+`(${params.percent}%)`
-              }
+                return params.name + ":\n" + params.value;
+              },
             },
           },
         ],

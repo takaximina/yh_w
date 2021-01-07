@@ -41,7 +41,7 @@ function getOption(data, level, use) {
       ? "orange"
       : "red";
   return {
-    backgroundColor: "divansparent",
+    backgroundColor: "transparent",
     title: {
       text: "已使用" + use + "Gb",
       textStyle: {

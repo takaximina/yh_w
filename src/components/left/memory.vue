@@ -23,7 +23,21 @@ export default {
       return { name: v.MemName, value: v.UseSizeGB };
     });
     this.healthData = data2.map((v) => {
-      return { name: v.health_type, value: v.weight, ...v };
+      return {
+        name: v.health_type,
+        value: v.weight,
+        ...v,
+        itemStyle: {
+          color:
+            v.is_alert === 0
+              ? "green"
+              : v.is_alert === 1
+              ? "yellow"
+              : v.is_alert === 2
+              ? "orange"
+              : "red",
+        },
+      };
     });
     setInterval(async () => {
       data1 = await this.$http.get("/index/memory");
@@ -32,7 +46,21 @@ export default {
         return { name: v.MemName, value: v.UseSizeGB };
       });
       this.healthData = data2.map((v) => {
-        return { name: v.health_type, value: v.weight, ...v };
+        return {
+          name: v.health_type,
+          value: v.weight,
+          ...v,
+          itemStyle: {
+            color:
+              v.is_alert === 0
+                ? "green"
+                : v.is_alert === 1
+                ? "yellow"
+                : v.is_alert === 2
+                ? "orange"
+                : "red",
+          },
+        };
       });
       this.drawMemory();
     }, 10000);
@@ -90,8 +118,8 @@ export default {
               alignTo: "edge",
               // verticalAlign: "center",
               // formatter: "{b}:\n{c}%",
-              position:'outer',
-              margin:10,
+              position: "outer",
+              margin: 10,
             },
             data: this.memoryData,
           },
@@ -129,12 +157,14 @@ export default {
             radius: ["30%", "50%"],
             center: ["50%", "50%"],
             label: {
-              formatter: "{b}:\n{c}({d}%)",
+              formatter: (params) => {
+                return params.name + ":\n" + params.data.alert_desc;
+              },
               alignTo: "edge",
               // verticalAlign: "center",
               // formatter: "{b}:\n{c}%",
-              position:'outer',
-              margin:10,
+              position: "outer",
+              margin: 10,
             },
             data: this.healthData,
           },

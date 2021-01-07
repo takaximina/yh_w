@@ -34,27 +34,30 @@ export default {
   methods: {
     drawMemory() {
       let option1 = {
-        title: [{
-          text: "cpu",
-          x: "center",
-          y: "top",
-          textAlign: "center",
-          textStyle: {
-            fontSize: 12,
-            fontWeight: "normal",
-            color: "#00FBFF",
+        title: [
+          {
+            text: "cpu",
+            x: "center",
+            y: "top",
+            textAlign: "center",
+            textStyle: {
+              fontSize: 12,
+              fontWeight: "normal",
+              color: "#00FBFF",
+            },
           },
-        },{
-          text: `负载  ${this.memoryData.load_avg} 分页 ${this.memoryData.pagination}`,
-          left: "center",
-          bottom:"4%",
-          textAlign: "center",
-          textStyle: {
-            fontSize: 12,
-            fontWeight: "normal",
-            color: "#00FBFF",
+          {
+            text: `负载  ${this.memoryData.load_avg} 分页 ${this.memoryData.pagination}`,
+            left: "center",
+            bottom: "4%",
+            textAlign: "center",
+            textStyle: {
+              fontSize: 12,
+              fontWeight: "normal",
+              color: "#00FBFF",
+            },
           },
-        }],
+        ],
         backgroundColor: "transparent",
         tooltip: {
           trigger: "item",
@@ -66,9 +69,13 @@ export default {
             max: 100,
           },
         ],
-        // legend: {
-        //   data: ["搜索引擎", "百度", "谷歌", "必应"],
-        // },
+        legend: {
+          orient: "vertical",
+          align: "right",
+          left: "right",
+          top: "middle",
+          data: ["其他","实例", ],
+        },
         xAxis: [
           {
             type: "category",
@@ -101,27 +108,37 @@ export default {
         ],
       };
       let option2 = {
-        title: [{
-          text: "活跃会话",
-          x: "center",
-          y: "top",
-          textAlign: "center",
-          textStyle: {
-            fontSize: 12,
-            fontWeight: "normal",
-            color: "#00FBFF",
+        title: [
+          {
+            text: "活跃会话",
+            x: "center",
+            y: "top",
+            textAlign: "center",
+            textStyle: {
+              fontSize: 12,
+              fontWeight: "normal",
+              color: "#00FBFF",
+            },
           },
-        },{
-          text: `活跃会话数  ${this.healthData.cpu_cores}`,
-          left: "center",
-          bottom:"4%",
-          textAlign: "center",
-          textStyle: {
-            fontSize: 12,
-            fontWeight: "normal",
-            color: "#00FBFF",
+          {
+            text: `活跃会话数  ${this.healthData.cpu_cores}`,
+            left: "center",
+            bottom: "4%",
+            textAlign: "center",
+            textStyle: {
+              fontSize: 12,
+              fontWeight: "normal",
+              color: "#00FBFF",
+            },
           },
-        }],
+        ],
+        legend: {
+          orient: "vertical",
+          align: "right",
+          left: "right",
+          top: "middle",
+          data: [ "等待","CPU","用户I/O", ],
+        },
         backgroundColor: "transparent",
         tooltip: {
           trigger: "item",
@@ -130,7 +147,7 @@ export default {
         yAxis: [
           {
             type: "value",
-            max: 100,
+            max: "dataMax",
           },
         ],
         // legend: {

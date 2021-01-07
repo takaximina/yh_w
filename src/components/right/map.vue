@@ -67,13 +67,13 @@ export default {
         {
           value: [121.45 + 4, 31.22],
           name: `${this.local.staby_desc}同城`,
-          symbolSize: this.local.stabydb_isalert == 0 ? 1 : 50,
+          symbolSize: this.local.stabydb_isalert == 1 ? 50 : 1,
           itemStyle: { color: "blue" },
         },
         {
           value: [104.07 + 4, 30.67],
           name: `${this.noLocal.staby_desc || "无"}异地`,
-          symbolSize: this.noLocal.stabydb_isalert == 0 ? 1 : 50,
+          symbolSize: this.noLocal.stabydb_isalert == 1 ? 50: 1,
           label: {
             position: [0, 40],
           },
@@ -81,7 +81,7 @@ export default {
         },
         {
           value: [116.44 + 4, 39.73],
-          symbolSize: this.local.primarydb_isalert == 0 ? 1 : 50,
+          symbolSize: this.local.primarydb_isalert == 1 ? 50 : 1,
           name: `${this.local.primary_desc}主库`,
         },
       ];
@@ -90,22 +90,22 @@ export default {
           value: [(116.44 + 121.45) / 2, (39.73 + 31.22) / 2],
           name: "A(秒)",
           delay: this.local.apply_delay,
-          symbolSize: this.local.apply_isalert == 0 ? 1 : 50,
+          symbolSize: this.local.apply_isalert === 1 ? 50 : 1,
           symbolOffset: [-30, 0],
-            label: {
-              position: this.local.apply_isalert == 0 ?[-40, 0]:[-20,20],
-              // offset: [-40, 0],
-            },
+          label: {
+            position: this.local.apply_isalert === 1 ? [-20, -20] : [-40, 0],
+            // offset: [-40, 0],
+          },
           itemStyle: { color: "blue" },
         },
         {
           value: [(116.44 + 121.45) / 2, (39.73 + 31.22) / 2],
           name: "T(秒)",
           delay: this.local.trans_delay,
-          symbolSize: this.local.trans_isalert == 0 ? 1 : 50,
+          symbolSize: this.local.trans_isalert === 1 ? 50 : 1,
           symbolOffset: [30, 0],
           label: {
-            position: this.local.trans_isalert == 0 ?[0,0]:[20,20],
+            position: this.local.trans_isalert === 1 ? [20, 20] : [0, 0],
           },
           itemStyle: { color: "blue" },
         },
@@ -113,10 +113,10 @@ export default {
           value: [(116.44 + 104.07) / 2, (39.73 + 30.67) / 2],
           name: "A(秒)",
           delay: this.noLocal.apply_delay,
-          symbolSize: this.noLocal.apply_isalert == 0 ? 1 : 50,
+          symbolSize: this.noLocal.apply_isalert === 1 ? 50 : 1,
           symbolOffset: [-30, 0],
           label: {
-            position:this.noLocal.apply_isalert == 0 ?[-80,-30]: [-60, 0],
+            position: this.noLocal.apply_isalert ===1 ?  [-60, 0]:[-80, -30] ,
             // offset: [-40, 0],
           },
           itemStyle: { color: "red" },
@@ -124,11 +124,11 @@ export default {
         {
           value: [(116.44 + 104.07) / 2, (39.73 + 30.67) / 2],
           delay: this.noLocal.trans_delay,
-          symbolSize: this.noLocal.trans_isalert == 0 ? 1 : 50,
+          symbolSize: this.noLocal.trans_isalert == 1 ? 50 : 1,
           name: "T(秒)",
           symbolOffset: [0, 20],
           label: {
-            position: this.noLocal.trans_isalert == 0 ?[-20,0]:[0,30],
+            position: this.noLocal.trans_isalert ===1 ?  [0, 30]:[-20, 0] ,
           },
           itemStyle: { color: "red" },
         },
@@ -229,7 +229,7 @@ export default {
                 formatter: (params) => {
                   console.log(typeof params.data.delay);
                   return (
-                    params.name + ":\n" + (params.data.delay || "无法连接")
+                    params.name + ":\n" + (params.data.delay ==undefined?"无法连接":params.data.delay)
                   );
                 },
                 position: "left",
@@ -246,7 +246,7 @@ export default {
                 shadowColor: "#333",
               },
             },
-            symbol: "image:///报警闪烁光点@3x.png",
+            symbol: "image:///alerm.png",
             symbolSize: 50,
             data: centerPoints,
           },
@@ -278,7 +278,7 @@ export default {
                 shadowColor: "#333",
               },
             },
-            symbol: "image:///报警闪烁光点@3x.png",
+            symbol: "image:///alerm.png",
             symbolSize: 50,
             data: points,
           },
@@ -310,7 +310,7 @@ export default {
                 shadowColor: "#333",
               },
             },
-            symbol: "image:///服务器图@3x.png",
+            symbol: "image:///server.png",
             symbolSize: 20,
             data: points1,
           },
