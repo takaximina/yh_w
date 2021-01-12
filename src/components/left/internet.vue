@@ -37,7 +37,7 @@
               style="flex: 1; width: 100%"
               v-if="list[item - 1]"
               :percentage="
-                list[item - 1] ? list[item - 1]['input_ratio'] * 100 : 0
+                list[item - 1] ? Number((list[item - 1]['input_ratio'] * 100).toFixed(0)): 0
               "
               :color="
                 customColor(
@@ -61,7 +61,7 @@
               style="flex: 1; width: 100%"
               v-if="list[item - 1]"
               :percentage="
-                list[item - 1] ? list[item - 1]['output_ratio'] * 100 : 0
+                list[item - 1] ? Number((list[item - 1]['output_ratio'] * 100).toFixed(0)) : 0
               "
               :color="
                 customColor(

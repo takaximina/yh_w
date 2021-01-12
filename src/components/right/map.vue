@@ -98,7 +98,7 @@ export default {
           symbolSize: this.local.apply_isalert === 1 ? 50 : 1,
           symbolOffset: [-30, 0],
           label: {
-            position: this.local.apply_isalert === 1 ? [-20, -20] : [-40, 0],
+            position: this.local.apply_isalert === 1 ? [-20, 25] : [-40, 0],
             // offset: [-40, 0],
           },
           itemStyle: { color: "blue" },

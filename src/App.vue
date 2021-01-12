@@ -6,8 +6,8 @@
         <el-select v-model="select_shili" size="mini" @change="changeShili">
           <el-option
             v-for="item in list"
-            :key="item.ins_id"
-            :value="item.ins_id"
+            :key="item.row_id"
+            :value="item.row_id"
             :label="item.ins_desc"
           ></el-option>
         </el-select>
@@ -150,7 +150,7 @@ export default {
       select: Cookie.get("v") ? JSON.parse(Cookie.get("v")) : [4],
       list: [],
       select_shili: Cookie.get("shili")
-        ? JSON.parse(Cookie.get("shili")).ins_id
+        ? JSON.parse(Cookie.get("shili")).row_id
         : "",
       select_real_shili: Cookie.get("realshili")
         ? Cookie.get("realshili")
@@ -178,6 +178,7 @@ export default {
       let data = this.list.find((vi) => vi.ins_id == v);
       this.$http.post("/index/choose", data).then(() => {
         Cookie.set("shili", JSON.stringify(data));
+        console.log(Cookie.get('shili'))
       });
     },
     chooseLevel(v) {
