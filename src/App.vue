@@ -175,7 +175,7 @@ export default {
   },
   methods: {
     changeShili(v) {
-      let data = this.list.find((vi) => vi.ins_id == v);
+      let data = this.list.find((vi) => vi.row_id == v);
       this.$http.post("/index/choose", data).then(() => {
         Cookie.set("shili", JSON.stringify(data));
         console.log(Cookie.get('shili'))
