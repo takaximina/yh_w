@@ -168,6 +168,14 @@ export default {
     let data = await this.$http.get("/", {
       params: {real:this.select_real_shili, v: JSON.stringify(this.select) },
     });
+    let displayData=await this.$http.get('/index/choose');
+     Cookie.set("shili", JSON.stringify(displayData),{expires:365});
+    let index=data.findIndex(v=>{
+      let {ohm_ip,ohm_port,ins_id,ins_desc}=v;
+       return JSON.stringify({ohm_ip,ohm_port,ins_id,ins_desc})==JSON.stringify(displayData)
+      });
+    console.log(index);
+    this.select_shili=index>=0?data[index].row_id:'';
     this.list = data;
     window.addEventListener('resize',()=>{
       this.$forceUpdate();
