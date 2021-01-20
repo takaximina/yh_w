@@ -177,15 +177,15 @@ export default {
     changeShili(v) {
       let data = this.list.find((vi) => vi.row_id == v);
       this.$http.post("/index/choose", data).then(() => {
-        Cookie.set("shili", JSON.stringify(data));
+        Cookie.set("shili", JSON.stringify(data),{expires:365});
         console.log(Cookie.get('shili'))
       });
     },
     chooseLevel(v) {
-      Cookie.set("v", JSON.stringify(v));
+      Cookie.set("v", JSON.stringify(v),{expires:365});
     },
     changerealShili(v) {
-      Cookie.set("realshili", v);
+      Cookie.set("realshili", v,{expires:365});
     },
   },
 };

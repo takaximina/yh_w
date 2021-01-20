@@ -9,10 +9,15 @@
     :cell-style="cellStyle"
   >
     <el-table-column
-      label="告警等级"
+      label="实例描述"
       align="center"
-      prop="alert_level"
-    ></el-table-column>
+      prop="ins_desc"
+      show-overflow-tooltip
+    >
+    <template slot-scope="scope">
+        {{ scope.row.alert_type_name }}
+      </template>
+    </el-table-column>
     <el-table-column
       label="时间"
       align="center"
@@ -25,7 +30,7 @@
     </el-table-column>
     <el-table-column label="告警描述" align="center" prop="alert_type_name" show-overflow-tooltip>
       <template slot-scope="scope">
-        {{ scope.row.alert_type_name }}
+        {{ scope.row.alert_value}}
       </template>
     </el-table-column>
   </el-table>
