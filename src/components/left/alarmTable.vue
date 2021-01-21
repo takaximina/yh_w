@@ -32,7 +32,7 @@
       align="center"
       prop="alert_category_name"
       show-overflow-tooltip
-      width="280px"
+      width="160px"
     >
       <template slot-scope="scope">
         {{ scope.row.alert_category_name }}
