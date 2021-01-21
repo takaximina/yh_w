@@ -95,6 +95,9 @@ export default {
   background-color: transparent !important;
   table {
     border-color: #00a7ff !important;
+    tr:hover>td{
+      background-color: rgba(255, 255, 255, 0.85) !important;
+    }
     td{
       border-color: #00a7ff !important;
     }
