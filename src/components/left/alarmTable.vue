@@ -96,10 +96,14 @@ export default {
   table {
     border-color: #00a7ff !important;
     tr:hover>td{
-      background-color: rgba(255, 255, 255, 0.85) !important;
+      background-color: transparent !important;
     }
     td{
       border-color: #00a7ff !important;
+      color:aliceblue
+    }
+    th{
+      color:aliceblue
     }
   }
   /deep/ tr {

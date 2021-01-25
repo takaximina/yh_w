@@ -73,7 +73,7 @@ export default {
           containLabel: true,
         },
         legend: {
-          data: ["考虑自动扩展使用率", "不考虑自动扩展使用率"],
+          data: [{name:"考虑自动扩展使用率",icon:'none'},{name: "不考虑自动扩展使用率",icon:'none'}],
         },
         tooltip: {
           formatter: "{a}<br />{b}:{c}%",

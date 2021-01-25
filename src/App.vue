@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div class="nav">
-      <p>大数据分析图</p>
+      <p>数据库监控系统</p>
       <el-popover width="200" trigger="click" class="select select_shili">
         <el-select v-model="select_shili" size="mini" @change="changeShili">
           <el-option

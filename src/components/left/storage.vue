@@ -36,7 +36,7 @@ function getOption(data, level, use) {
     level === 0
       ? "green"
       : level === 1
-      ? "yellow"
+      ? "#ffcc00"
       : level === 2
       ? "orange"
       : "red";
@@ -47,7 +47,7 @@ function getOption(data, level, use) {
       textStyle: {
         fontWeight: "normal",
         fontSize: 12,
-        color: "rgb(97, 142, 205)",
+        color: "white",
       },
     },
     series: [
@@ -66,6 +66,7 @@ function getOption(data, level, use) {
             formatter: data.toFixed(2) + "%",
             textStyle: {
               fontSize: 12,
+              color:'white'
             },
           },
         },
