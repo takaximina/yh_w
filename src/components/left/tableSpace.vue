@@ -73,7 +73,7 @@ export default {
           containLabel: true,
         },
         legend: {
-          data: [{name:"考虑自动扩展使用率",icon:'none'},{name: "不考虑自动扩展使用率",icon:'none'}],
+          data: [{name:"左边:考虑自动扩展使用率",icon:'none'},{name: "右边:不考虑自动扩展使用率",icon:'none'}],
         },
         tooltip: {
           formatter: "{a}<br />{b}:{c}%",
@@ -95,7 +95,7 @@ export default {
           {
             type: "bar",
             barWidth: 20,
-            name: "考虑自动扩展使用率",
+            name: "左边:考虑自动扩展使用率",
             data: this.data1.map((v) => {
               return {
                 ...v,
@@ -114,7 +114,7 @@ export default {
           },
           {
             type: "bar",
-            name: "不考虑自动扩展使用率",
+            name: "右边:不考虑自动扩展使用率",
             barWidth: 20,
             data: this.data2.map((v) => {
               return {
