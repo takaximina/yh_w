@@ -110,7 +110,7 @@
                   <el-option :value="3" label="三级橙色"></el-option>
                   <el-option :value="4" label="四级红色"></el-option>
                 </el-select>
-                <span slot="reference" class="titel_span">选择告警顶级</span>
+                <span slot="reference" class="titel_span">选择告警等级</span>
               </el-popover>
             </div>
             <alarm-table />
