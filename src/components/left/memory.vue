@@ -158,7 +158,7 @@ export default {
             center: ["50%", "50%"],
             label: {
               formatter: (params) => {
-                return params.name + ":\n" + params.data.alert_desc;
+                return params.name ;
               },
               alignTo: "edge",
               // verticalAlign: "center",
