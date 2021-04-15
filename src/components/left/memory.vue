@@ -76,7 +76,7 @@ export default {
     drawMemory() {
       let option1 = {
         title: {
-          text: "内存使用",
+          text: "内存使用(G)",
           x: "center",
           y: "top",
           textAlign: "center",

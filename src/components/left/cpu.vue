@@ -67,6 +67,10 @@ export default {
           {
             type: "value",
             max: 100,
+            axisLabel:{
+            show:true,
+            formatter:'{value}%'
+            }
           },
         ],
         legend: {
