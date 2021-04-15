@@ -7,8 +7,10 @@
     header-row-class-name="table_header"
     :header-cell-style="{ borderColor: ' #00a7ff', padding: 0 }"
     :header-row-style="{ lineHeight: '30px' }"
-    :cell-style="{ borderColor: '#00a7ff!important;', padding: 0 }"
+    :cell-style="{ borderColor: '#00a7ff!important;', padding: 0,backgroundColor: `transparent !important` }"
     :row-style="{ lineHeight: '30px' }"
+    cell-class-name="t_cell"
+    row-class-name="table_header"
   >
     <el-table-column
       label="实例描述"
@@ -56,7 +58,9 @@ import Cookie from "js-cookie";
 export default {
   data() {
     return {
-      list: [],
+      list: [{
+        ins_desc:'dwadawdwa'
+      }],
     };
   },
   async created() {
@@ -95,21 +99,21 @@ export default {
   background-color: transparent !important;
   table {
     border-color: #00a7ff !important;
-    tr:hover>td{
+    tr:hover > td {
       background-color: transparent !important;
     }
-    td{
+    td {
       border-color: #00a7ff !important;
-      color:aliceblue
+      color: rgb(0,255,255);
     }
-    th{
-      color:aliceblue
+    th {
+      color: rgb(0,255,255);
     }
   }
   /deep/ tr {
-    background-color: rgba(1, 239, 220, 0.08) !important;
+    background-color: transparent !important;
     th {
-      background-color: rgba(1, 239, 220, 0.08) !important;
+      background-color: transparent !important;
     }
   }
   /deep/ .el-table td,
@@ -124,5 +128,13 @@ export default {
 }
 .table_header {
   border-color: #00a7ff !important;
+  background-color: transparent !important;
+  th {
+    background-color:transparent !important;
+    color: rgb(0,255,255);
+  }
+}
+.t_cell{
+  
 }
 </style>
