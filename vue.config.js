@@ -15,7 +15,7 @@ module.exports={
         },
         proxy: {
           "/proxy":{
-            target: 'http://localhost:8360',
+            target: 'http://172.16.255.21:9292/proxy',
             changeOrigin: true,
             pathRewrite: { '^/proxy': '' }
           }

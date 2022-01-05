@@ -104,7 +104,7 @@ export function transtodata(data, symbolRotate, alert) {
                     delay:i*1000,
                     trailLength: 0,
                     color: '#fff',
-                    symbol:alert[2]===0? "image:///greentran3.png":'image:///redtran3.png',
+                    symbol:(alert[2]===0||alert[2]===undefined)? "image:///greentran3.png":'image:///redtran3.png',
                     // symbol:alert[2]===0? "circle":'rect',
                     symbolSize: 20,
                     symbolRotate: symbolRotate,

@@ -59,7 +59,10 @@ export default {
   data() {
     return {
       list: [{
-        ins_desc:'dwadawdwa'
+        ins_desc:'dwadawdwa',
+        alert_sys_date:'2021-07-11 16:34:45',
+        alert_category_name:"模拟告警",
+        alert_value:'报警模拟'
       }],
     };
   },
@@ -67,14 +70,14 @@ export default {
     let data = await this.$http.get("/index/alarm", {
       params: {
         real: Cookie.get("realshili") || "1",
-        v: Cookie.get("v") || JSON.stringify([4]),
+        v: Cookie.get("v") || JSON.stringify([3]),
       },
     });
     setInterval(async () => {
       data = await this.$http.get("/index/alarm", {
         params: {
           real: Cookie.get("realshili") || "1",
-          v: Cookie.get("v") || JSON.stringify([4]),
+          v: Cookie.get("v") || JSON.stringify([3]),
         },
       });
       this.list = data;

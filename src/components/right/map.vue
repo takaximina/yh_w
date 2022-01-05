@@ -49,13 +49,13 @@ export default {
       let points1 = [
         {
           value: [121.45, 31.22],
-          name: `${this.local.staby_desc}同城`,
+          name: `${this.local.staby_desc?this.local.staby_desc+'同城':'同城'}`,
           symbolSize: 20, //this.local.stabydb_isalert == 0 ? 1 : 50,
           itemStyle: { color: "blue" },
         },
         {
           value: [104.07, 30.67],
-          name: `${this.noLocal.staby_desc || "无"}异地`,
+          name: `${this.noLocal.staby_desc?this.noLocal.staby_desc+'异地':'异地'}`,
           symbolSize: 20,
           label: {
             offset: [0, -0],
@@ -65,19 +65,19 @@ export default {
         {
           value: [116.44, 39.73],
           symbolSize: 20, //this.local.primarydb_isalert == 0 ? 1 : 50,
-          name: `${this.local.primary_desc}主库`,
+          name: `${this.local.primary_desc?this.local.primary_desc+'主库':'主库'}`,
         },
       ];
       let points = [
         {
           value: [121.45 + 4, 31.22],
-          name: `${this.local.staby_desc}同城`,
+          name: `${this.local.staby_desc?this.local.staby_desc+'同城':'同城'}`,
           symbolSize: this.local.stabydb_isalert == 1 ? 50 : 1,
           itemStyle: { color: "blue" },
         },
         {
           value: [104.07 + 4, 30.67],
-          name: `${this.noLocal.staby_desc || "无"}异地`,
+          name: `${this.noLocal.staby_desc ?this.noLocal.staby_desc+'异地':'异地'}`,
           symbolSize: this.noLocal.stabydb_isalert === 1 ? 50 : 1,
           label: {
             position: this.noLocal.stabydb_isalert === 1 ? [0, 40] : [0, 20],
@@ -87,7 +87,7 @@ export default {
         {
           value: [116.44 + 4, 39.73],
           symbolSize: this.local.primarydb_isalert == 1 ? 50 : 1,
-          name: `${this.local.primary_desc}主库`,
+          name: `${this.local.primary_desc?+this.local.primary_desc+'主库':'主库'}`,
         },
       ];
       let centerPoints = [
@@ -234,8 +234,8 @@ export default {
                   return (
                     params.name +
                     ":\n" +
-                    (params.data.delay == undefined
-                      ? "无法连接"
+                    (params.data.delay === undefined
+                      ? "无"
                       : params.data.delay)
                   );
                 },

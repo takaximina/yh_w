@@ -105,10 +105,10 @@
                   style=""
                   @change="chooseLevel"
                 >
-                  <el-option :value="1" label="一级绿色"></el-option>
-                  <el-option :value="2" label="二级黄色"></el-option>
-                  <el-option :value="3" label="三级橙色"></el-option>
-                  <el-option :value="4" label="四级红色"></el-option>
+                  <el-option :value="0" label="一级绿色"></el-option>
+                  <el-option :value="1" label="二级黄色"></el-option>
+                  <el-option :value="2" label="三级橙色"></el-option>
+                  <el-option :value="3" label="四级红色"></el-option>
                 </el-select>
                 <span slot="reference" class="titel_span">选择告警等级</span>
               </el-popover>
@@ -147,7 +147,7 @@ export default {
   },
   data() {
     return {
-      select: Cookie.get("v") ? JSON.parse(Cookie.get("v")) : [4],
+      select: Cookie.get("v") ? JSON.parse(Cookie.get("v")) : [3],
       list: [],
       select_shili: Cookie.get("shili")
         ? JSON.parse(Cookie.get("shili")).row_id
